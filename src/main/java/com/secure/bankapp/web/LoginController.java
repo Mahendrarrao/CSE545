@@ -6,6 +6,9 @@ import java.sql.Date;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,7 +64,7 @@ public class LoginController {
         userDetail.setUpdatedOn(Date.valueOf(LocalDate.now()));
         userDetail.setDob(Date.valueOf(LocalDate.now()));
         userDetail.setGender("Male");
-        userDetail.setAddress(userForm.getAddress());
+        userDetail.setAddress(userForm.getAddress() + ", " + userForm.getCity());
         
         
 
@@ -83,8 +86,26 @@ public class LoginController {
         return "login";
     }
 
-    @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/"}, method = RequestMethod.GET)
     public String welcome(Model model) {
+    	User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	String role = user.getAuthorities().iterator().next().getAuthority().toString();
+    	
+    	if(role.equals(Constants.ROLE_CUSTOMER))
+    		return "welcome";
+    	
+    	if(role.equals(Constants.ROLE_MERCHANT))
+    		return "welcome";
+    	
+    	if(role.equals(Constants.ROLE_TIER1))
+    		return "welcome";
+    	
+    	if(role.equals(Constants.ROLE_TIER2))
+    		return "welcome";
+    	
+    	if(role.equals(Constants.ROLE_ADMIN))
+    		return "welcome";
+    	
         return "welcome";
     }
 }
