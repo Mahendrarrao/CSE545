@@ -5,51 +5,82 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+<title>Login Page</title>
 
-    <title>Log in with your account</title>
+<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script src="resources/JS/jquery.keyboard.extension-all.min.js"></script>
+<script src="resources/JS/jquery.keyboard.extension-autocomplete.min.js"></script>
+<script src="resources/JS/jquery.keyboard.extension-mobile.min.js"></script>
+<script src="resources/JS/jquery.keyboard.extension-navigation.min.js"></script>
+<script src="resources/JS/jquery.keyboard.extension-scramble.min.js"></script>
+<script src="resources/JS/jquery.keyboard.extension-typing.min.js"></script>
+<script src="resources/JS/jquery.keyboard.min.js"></script>
+<script src="resources/JS/jquery.mousewheel.min.js"></script>
+<script src="resources/JS/virtualkeyboard.js"></script> -->
 
-    <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
+<link rel="stylesheet" href="resources/css/style.css" />
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+
 </head>
-
-<body>
-
-<div class="container">
-
-    <form method="POST" action="${contextPath}/login" class="form-signin">
-        <h2 class="form-heading">Log in</h2>
-
-        <div class="form-group ${error != null ? 'has-error' : ''}">
-            <span>${message}</span>
-            <input name="username" type="text" class="form-control" placeholder="Username"
-                   autofocus="true"/>
-            <input name="password" type="password" class="form-control" placeholder="Password"/>
-            <span>${error}</span>
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
-            <h4 class="text-center"><a href="${contextPath}/registration">Create an account</a></h4>
-        </div>
-
-    </form>
-
+<body onload='document.loginForm.username.focus();'>
+	<div class="topnav">
+		<a href="#">Link</a>
+		<a href="#">Link</a>
+		<a href="#">Link</a>
+	</div>
+	<div class="content">
+		<center><h1>Welcome to Sun Financial</h1></center>
+		<div id="login-box">
+			<h3>Welcome</h3> 
+			<form name='loginForm'
+			  action="${contextPath}/login" method="post"> 
+			<table>
+			<tr>
+			<td>
+			<span>${message}</span>
+			</td>
+			</tr>
+				<tr>
+					<td>User ID:</td>
+					<td>
+					<input type="text" name="username" placeholder="Username"/>
+					
+					</td>
+				</tr>
+				<tr>
+					<td>Password:</td>
+					<td>
+						<input   type="password" name="password" placeholder="Password" />
+						<span>${error}</span>
+						 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+						
+					</td>
+				</tr>
+				<tr>
+					<td><input type="radio" id="external" name="usertyp" value="external">
+					<label for="external">User/Merchant</label></td>
+					<td><input type="radio" id="internal" name="usertyp" value="internal">
+					<label for="internal">Employee</label></td>				
+				</tr>
+				<tr>
+					<td colspan='2'><input name="signin" id="signin" type="submit"
+					  value="Sign In" /></td>
+				</tr>
+				<tr>						
+			  </table>
+			</form> 
+			<a href="forgotpassword1.jsp">Forgot username/password?></a><br>
+			<a href="register">Not enrolled? Sign up now. ></a>
+		</div> 
+	</div>
+<div class="footer">
+<p>Footer</p>
 </div>
-<!-- /container -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
+	
+	
 </body>
 </html>

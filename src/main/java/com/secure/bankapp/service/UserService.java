@@ -1,10 +1,13 @@
 package com.secure.bankapp.service;
 
-import com.secure.bankapp.model.User;
+import com.secure.bankapp.model.UserCred;
+import com.secure.bankapp.model.UserDetail;
 
 public interface UserService {
 
-	void save(User user);
+	void save(UserCred user, UserDetail userDetail);
 
-    User findByUsername(String username);
+    UserCred findByUsername(String username);
+    
+    UserDetail findByEmail(String username);
 }

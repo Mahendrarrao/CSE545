@@ -4,38 +4,34 @@ import java.util.Set;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "role")
 public class Role {
    
-	private Long id;
+	private Long roleId;
     private String name;
-    private Set<User> users;
+  
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getId() {
-        return id;
-    }
+ 
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    @Column(name = "role_name")
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    @Id
+    @Column(name = "role_id")
+    public Long getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Long role_id) {
+		this.roleId = role_id;
+	}
+
+	public void setName(String name) {
         this.name = name;
     }
 
-    @ManyToMany(mappedBy = "roles")
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
+  
   
 }
