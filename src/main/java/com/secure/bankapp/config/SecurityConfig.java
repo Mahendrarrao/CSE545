@@ -1,8 +1,10 @@
 package com.secure.bankapp.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,12 +12,19 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.secure.bankapp.service.LimitLoginAuthenticationProvider;
+import com.secure.bankapp.util.CustomLogoutHandler;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, proxyTargetClass = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	   @Autowired
 	    private UserDetailsService userDetailsService;
+	   
+	   @Autowired
+		@Qualifier("authenticationProvider")
+		AuthenticationProvider authenticationProvider;
 
 	    @Bean
 	    public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -34,11 +43,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	                    .permitAll()
 	                    .and()
 	                .logout()
+	                .addLogoutHandler(customLogoutHandler())
 	                    .permitAll();
 	    }
 
 	    @Autowired
 	    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-	        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+	    	
+	    	 LimitLoginAuthenticationProvider provider = (LimitLoginAuthenticationProvider)authenticationProvider;
+	    	    BCryptPasswordEncoder passwordEncoder = bCryptPasswordEncoder();
+	    	 provider.setPasswordEncoder(passwordEncoder);
+	    	 auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+	    	    auth.authenticationProvider(authenticationProvider);
+	        
+	        
+	    }
+	    
+	    @Bean
+	    public CustomLogoutHandler customLogoutHandler() {
+	    	return new CustomLogoutHandler();
 	    }
 }

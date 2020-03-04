@@ -19,6 +19,7 @@ import com.secure.bankapp.model.Role;
 import com.secure.bankapp.model.UserCred;
 import com.secure.bankapp.repository.RoleRepository;
 import com.secure.bankapp.repository.UserCredentialRepository;
+import com.secure.bankapp.util.Constants;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService{
@@ -33,6 +34,9 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserCred user = userRepository.findByUserId(username);
+        
+        
+       
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 		/*
@@ -44,6 +48,6 @@ public class UserDetailsServiceImpl implements UserDetailsService{
         grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
        
 
-        return new org.springframework.security.core.userdetails.User(user.getUserId(), user.getPassword(), grantedAuthorities);
+        return new org.springframework.security.core.userdetails.User(user.getUserId(), user.getPassword(), true, true, true, !user.getStatus().equals(Constants.USER_LOCKED),  grantedAuthorities);
     }
 }

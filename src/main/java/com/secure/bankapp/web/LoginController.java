@@ -3,9 +3,12 @@ package com.secure.bankapp.web;
 import java.time.LocalDate;
 import java.sql.Date;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.secure.bankapp.model.RegistrationForm;
+import com.secure.bankapp.model.SystemLog;
 import com.secure.bankapp.model.UserCred;
 import com.secure.bankapp.model.UserDetail;
+import com.secure.bankapp.service.SystemLogService;
 import com.secure.bankapp.service.UserService;
 import com.secure.bankapp.util.Constants;
 import com.secure.bankapp.validation.UserValidator;
@@ -29,6 +34,8 @@ import com.secure.bankapp.validation.UserValidator;
 public class LoginController {
     @Autowired
     private UserService userService;
+    
+   
 
     @Autowired
     private UserValidator userValidator;
@@ -76,17 +83,40 @@ public class LoginController {
 
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(Model model, String error, String logout) {
+    public String login(Model model, String error, String logout,HttpServletRequest request) {
     	if (error != null)
-            model.addAttribute("error", "Your username and password is invalid.");
+            model.addAttribute("error", getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION"));
 
         if (logout != null)
+        {
             model.addAttribute("message", "You have been logged out successfully.");
+            
+        
+            
+        }
 
         return "login";
     }
+    
+  //customize the error message
+  	private String getErrorMessage(HttpServletRequest request, String key){
+  	
+  		Exception exception = 
+                     (Exception) request.getSession().getAttribute(key);
+  		
+  		String error = "";
+  		if (exception instanceof BadCredentialsException) {
+  			error = "Invalid username and password!";
+  		}else if(exception instanceof LockedException) {
+  			error = exception.getMessage();
+  		}else{
+  			error = "Invalid username and password!";
+  		}
+  		
+  		return error;
+  	}
 
-    @RequestMapping(value = {"/"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/","/welcome"}, method = RequestMethod.GET)
     public String welcome(Model model) {
     	User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     	String role = user.getAuthorities().iterator().next().getAuthority().toString();
