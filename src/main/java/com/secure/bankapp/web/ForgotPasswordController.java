@@ -13,6 +13,6 @@ public class ForgotPasswordController {
 	    public String forgotPassword(Model model) {
 	        model.addAttribute("forgotPasswordForm", new ForgotPasswordForm());
 
-	        return "forgotpassword1";
+	        return "forgotpassword";
 	    }
 }
