@@ -46,15 +46,15 @@ public class OtpController {
 	public String generateOtp(Model model, @RequestParam("referer") String referer){
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String userName = auth.getName();
-		UserDetail user = userDetailRepo.findByUserName(userName);
+		String userId = auth.getName();
+		UserDetail user = userDetailRepo.findByuserId(userId);
 
-		int otp = oTPService.generateOTP(userName);
+		int otp = oTPService.generateOTP(userId);
 		logger.info("Generated OTP is: "+otp);
 		EmailTemplate template = new EmailTemplate("SendOtp.html");
 
 		Map<String,String> replaceData = new HashMap<String,String>();
-		replaceData.put("user", userName);
+		replaceData.put("user", userId);
 		replaceData.put("otpnum", String.valueOf(otp));
 
 		String message = template.getTemplate(replaceData);
