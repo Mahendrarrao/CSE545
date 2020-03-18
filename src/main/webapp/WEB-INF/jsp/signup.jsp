@@ -39,7 +39,7 @@
                   </td>
               </tr>
               <!-- <tr>
-                  <td valign="top">Confirm Email: </td>
+                  <td valign="top"> Confirm Email: </td>
                   <td valign="top">
                       <input  type="text" name="confirmemail" size="20"/>
                   </td>
