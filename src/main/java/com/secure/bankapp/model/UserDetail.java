@@ -29,6 +29,16 @@ public class UserDetail {
 	private Date  createdAt;
 	
 	private Date  updatedOn;
+	public UserDetail(UserDetail user) {
+		// TODO Auto-generated constructor stub
+		this.fullName = user.getFullName();
+		this.address = user.getAddress();
+		this.email = user.getEmail();
+		this.phone = user.getPhone();
+	}
+	public UserDetail() {
+		// TODO Auto-generated constructor stub
+	}
 	@Id
 	@Column(name = "user_id")
 	public String getUserId() {
