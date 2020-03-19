@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.secure.bankapp.service.LimitLoginAuthenticationProvider;
+import com.secure.bankapp.util.Constants;
 import com.secure.bankapp.util.CustomLogoutHandler;
 @Configuration
 @EnableWebSecurity
@@ -33,10 +34,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	    @Override
 	    protected void configure(HttpSecurity http) throws Exception {
-	        http
+	        http .csrf().disable()
 	                .authorizeRequests()
 	                    .antMatchers("/resources/**", "/register", "/forgotPassword").permitAll()
-	                    .anyRequest().authenticated()
+	                    .antMatchers("/emp2/**").hasRole("TIER2")
+	                    .antMatchers("/emp1/**").hasRole("TIER1")
 	                    .and()
 	                .formLogin()
 	                    .loginPage("/login")
@@ -45,6 +47,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	                .logout()
 	                .addLogoutHandler(customLogoutHandler())
 	                    .permitAll();
+	                  
+
+	        
 	    }
 
 	    @Autowired

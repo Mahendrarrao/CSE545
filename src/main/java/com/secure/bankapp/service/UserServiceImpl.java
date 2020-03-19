@@ -45,4 +45,10 @@ public class UserServiceImpl implements UserService {
 		
 		return userDetailRepository.findByEmail(email);
 	}
+
+	@Override
+	public UserDetail findByPhone(String phone) {
+		// TODO Auto-generated method stub
+		return userDetailRepository.findByPhone(phone);
+	}
 }

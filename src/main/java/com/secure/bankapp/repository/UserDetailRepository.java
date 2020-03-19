@@ -8,5 +8,7 @@ import com.secure.bankapp.model.UserDetail;
 public interface UserDetailRepository extends JpaRepository<UserDetail, String> {
 	
 	UserDetail findByEmail(String email);
+	
+	UserDetail findByPhone(String phone);
 
 }

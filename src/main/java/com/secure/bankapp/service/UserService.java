@@ -9,5 +9,7 @@ public interface UserService {
 
     UserCred findByUsername(String username);
     
-    UserDetail findByEmail(String username);
+    UserDetail findByEmail(String email);
+    
+    UserDetail findByPhone(String phone);
 }

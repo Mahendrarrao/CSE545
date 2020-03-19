@@ -6,6 +6,8 @@ public class Constants {
 	
 	public static final String USER_LOCKED = "userLocked";
 	
+	public static final String USER_ACTIVE = "active";
+	
 	public static final String ROLE_CUSTOMER = "ROLE_CUSTOMER";
 	
 	public static final String ROLE_MERCHANT = "ROLE_MERCHANT";
@@ -21,6 +23,14 @@ public class Constants {
 	public static final String USER_LOGIN = "USER_LOGIN";
 	
 	public static final String USER_LOGOUT = "USER_LOGOUT";
+	
+	public static enum ACCOUNT_STATUS { ACTIVE, VERIFY_NEEDED, CLOSED}
+	
+	public static enum TRANSACTION_STATUS { COMPLETED, PENDING_APPROVAL, FAILED, REJECTED}
+	
+	
+	
+	
 	
 	
 	
