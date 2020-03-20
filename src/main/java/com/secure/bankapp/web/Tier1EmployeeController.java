@@ -1,11 +1,9 @@
 package com.secure.bankapp.web;
 
-import java.time.LocalDate;
-import java.util.ArrayList;import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Role;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,27 +13,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.secure.bankapp.exception.InsufficientBalanceException;
 import com.secure.bankapp.model.Account;
-import com.secure.bankapp.model.RegistrationForm;
 import com.secure.bankapp.model.Transaction;
 import com.secure.bankapp.model.UserDetail;
 import com.secure.bankapp.repository.UserDetailRepository;
 import com.secure.bankapp.service.AccountService;
-import com.secure.bankapp.service.EmployeeService;
 import com.secure.bankapp.service.TransactionService;
-import com.secure.bankapp.service.UserService;
-import com.secure.bankapp.util.Constants;
 
 @Controller
-public class EmployeeController {
+public class Tier1EmployeeController {
 
 	@Autowired
 	private TransactionService transactionService;
-
-	@Autowired
-	private UserService userService;
-
-	@Autowired
-	private EmployeeService employeeService;
 
 	@Autowired
 	private AccountService accountService;
@@ -43,52 +31,75 @@ public class EmployeeController {
 	@Autowired
 	private UserDetailRepository UserDetailRepository;
 
-	@RequestMapping(value = "/emp2/getTransactions", method = RequestMethod.GET)
-	public String getTransactionsEmp2(Model model) {
-		model.addAttribute("transactionList", transactionService.getCriticalTransactions());
-
-		return "";
-	}
-
-	@RequestMapping(value = "/emp2/approve", method = RequestMethod.POST)
-	public String approveTransactionsEmp2(@ModelAttribute("transactions") List<Transaction> transactions, Model model) {
-
-		transactionService.approveTransactions(transactions);
-
-		return "";
-	}
-
-	@RequestMapping(value = "/emp2/reject", method = RequestMethod.POST)
-	public String rejectTransactionsEmp2(@ModelAttribute("transactions") List<Transaction> transactions, Model model) {
-
-		transactionService.rejectTransactions(transactions);
-
-		return "";
-	}
-
-	@RequestMapping(value = "/emp1/getTransactions", method = RequestMethod.GET)
+	//Begin Mappings for Tier 1 Employees
+	//Functions addressing functionality described in Course Project Requirements Document namely,
+	//
+	//can view, create and authorize non-critical transactions upon having authorization from the bank customer and tier 2 employee
+	//can view customers’ accounts
+	//can issue cashier cheques as well as handle fund transfer
+	//can authorize or decline customer’s request
+	//
+	
+	//Tier 1 Employees can view non-critical transactions upon having authorization from the bank customer and tier 2 employee.
+	@RequestMapping(value = "/emp1/getNonCriticalTransactions", method = RequestMethod.GET)
 	public String getTransactionsEmp1(Model model) {
+		// TODO
+		// Needs authentication that transactions returned to tier1 employee are all nonCritical with authentication
+		// from tier2 employee and customer.
 		model.addAttribute("transactionList", transactionService.getNonCriticalTransactions());
 
 		return "";
 	}
-
-	@RequestMapping(value = "/emp1/approve", method = RequestMethod.POST)
+	
+	
+	//Tier 1 Employees can authorize (approve) non-critical transactions upon having authorization from the bank customer and tier 2 employee.
+	@RequestMapping(value = "/emp1/approveNonCriticalTransactions", method = RequestMethod.POST)
 	public String approveTransactionsEmp1(@ModelAttribute("transactions") List<Transaction> transactions, Model model) {
-
+		// TODO
+		// Needs authentication that transactions supplied by tier1 employee are all nonCritical with authentication
+		// from tier2 employee and customer.
 		transactionService.approveTransactions(transactions);
 
 		return "";
 	}
 
-	@RequestMapping(value = "/emp1/reject", method = RequestMethod.POST)
+	
+	//Tier 1 Employees can authorize (reject) non-critical transactions upon having authorization from the bank customer and tier 2 employee.
+	@RequestMapping(value = "/emp1/rejectNonCriticalTransactions", method = RequestMethod.POST)
 	public String rejectTransactionsEmp1(@ModelAttribute("transactions") List<Transaction> transactions, Model model) {
-
+		// TODO
+		// Needs authentication that transactions supplied by tier1 employee are all nonCritical with authentication
+		// from tier2 employee and customer.
 		transactionService.rejectTransactions(transactions);
 
 		return "";
 	}
 	
+	//Tier 1 Employees can create non-critical transactions upon having authorization from the bank customer and tier 2 employee.
+	//TODO//
+	
+	
+	//Tier 1 Employees can view customers’ accounts.
+	//TODO//
+	
+	
+	//Tier 1 Employees can issue cashier checks as well as handle fund transfer.
+	//TODO//
+	
+	
+	//Tier 1 Employees can authorize customer’s request.
+	//TODO//
+	
+	
+	//Tier 1 Employees can reject customer’s request.
+	//TODO//
+	
+	
+	//
+	//Other functions addressing unknown or non-required functionality PLEASE COMMENT FUNCTIONS!//
+	//
+	
+	//PLEASE COMMENT FUNCTION//
 	@RequestMapping(value = {"/emp1/get/{userId}","/emp2/get/{userId}" }, method = RequestMethod.GET)
 	public String getUserAccount(@PathVariable("userId") String userId, Model model) {
 
@@ -111,30 +122,8 @@ public class EmployeeController {
 		return "";
 	}
 	
-	@RequestMapping(value = {"/emp2/delete/" }, method = RequestMethod.POST)
-	public String deleteUserAccount( Long accountId, Model model) {
-
 	
-		Account account = accountService.getAccountById(accountId).get();
-		accountService.deleteAccount(account);
-		
-		
-		return "";
-	}
-	
-	@RequestMapping(value = {"/emp2/update/" }, method = RequestMethod.POST)
-	public String modifyUserAccount(@ModelAttribute("userProfile") UserDetail userProfile, Model model) {
-
-		UserDetail user = UserDetailRepository.findByUserId(userProfile.getUserId());
-		user.setAddress(userProfile.getAddress());
-		user.setEmail(userProfile.getEmail());
-		user.setUpdatedOn(java.sql.Date.valueOf(LocalDate.now()));
-		user.setPhone(userProfile.getPhone());
-		UserDetailRepository.save(user);
-		
-		return "";
-	}
-	
+	//PLEASE COMMENT FUNCTION//
 	@RequestMapping(value = {"/emp1/add/" }, method = RequestMethod.POST)
 	public String addFunds(@ModelAttribute("transaction") Transaction transaction, Model model) {
 
@@ -144,6 +133,8 @@ public class EmployeeController {
 		return "";
 	}
 	
+	
+	//PLEASE COMMENT FUNCTION//
 	@RequestMapping(value = {"/emp1/withdraw/" }, method = RequestMethod.POST)
 	public String withdrawFunds(@ModelAttribute("transaction") Transaction transaction, Model model) {
 
@@ -157,11 +148,6 @@ public class EmployeeController {
 		
 		return "";
 	}
-	
-	
-	
-	
-	
-	
 
+	
 }
