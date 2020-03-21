@@ -63,17 +63,22 @@
 					<td><input type="radio" id="internal" name="usertyp" value="internal">
 					<label for="internal">Employee</label></td>				
 				</tr>
-				<tr>
-				<span>${error}</span>
-				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>	
-				</tr>
+				<tr><td colspan='2'>
+				<div id="error">
+					<span>${error}</span>
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>	
+				</div>
+				</td></tr>
 				<tr>
 					<td colspan='2'><input name="signin" id="signin" type="submit"
 					  value="Sign In" /></td>
 				</tr>
-				<tr>						
+				<tr>
+ 
+				</tr>
 			  </table>
-			</form> 
+			</form>
+
 			<a href="forgotpassword1.jsp">Forgot username/password?></a><br>
 			<a href="signup.jsp">Not enrolled? Sign up now. ></a>
 		</div> 

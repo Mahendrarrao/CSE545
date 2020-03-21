@@ -38,12 +38,12 @@
                       <input  type="text" name="email" size="20"/>
                   </td>
               </tr>
-              <!-- <tr>
+              <tr>
                   <td valign="top"> Confirm Email: </td>
                   <td valign="top">
                       <input  type="text" name="confirmemail" size="20"/>
                   </td>
-              </tr> --!>
+              </tr>
               <tr>
         					<td>Password:</td>
         					<td>
@@ -54,6 +54,7 @@
         					</td>
 				      </tr>
             </table>
+            </form>
             <a href="registration1.jsp"><button class="button">Sign Up</button></a>
         </div>
     </div>
