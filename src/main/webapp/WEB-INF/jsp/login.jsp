@@ -77,10 +77,9 @@
  
 				</tr>
 			  </table>
-			</form>
-
-			<a href="forgotpassword1.jsp">Forgot username/password?></a><br>
-			<a href="signup.jsp">Not enrolled? Sign up now. ></a>
+			  </form>
+			<a href="forgotpassword.jsp">Forgot username/password?></a><br>
+			<a href="register">Not enrolled? Sign up now. ></a>
 		</div> 
 	</div>
 <div class="footer">

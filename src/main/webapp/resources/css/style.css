@@ -43,8 +43,8 @@ h1{
 }
 
 #login-box-reg {
-    width: 390px;
-    height: 320px;
+    width: 420px;
+    height: auto;
     padding: 20px;
     margin: 10px auto;
     background: #eeeeee;
@@ -98,7 +98,7 @@ h1{
   background-color: #1e88e5;
   font-size: 16px;
   color: white;
-  float: right;
+  float: right;	
 }
 
 #sendotp{
@@ -170,8 +170,6 @@ h1{
 }
 
 #error{
-	width: 300px;  
-	height: 20px;
 	color: red;
 	font-size: 12px;
 }

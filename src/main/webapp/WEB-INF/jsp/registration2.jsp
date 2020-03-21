@@ -25,22 +25,25 @@
         <div id="login-box-reg">
 		<form:form modelAttribute="userForm" name="frm" method="post"  >
 		
-			<table width="450px">
+			<table>
 			
 			<h3>Registration Step 2/2</h3>
 
 			<tr>
 			<td colspan="2">
-				<label color="Red"><font color="red">${errormsg}</font></label>
+			<div id="error">
+				<!--  <label color="Red"><font color="red">${errormsg}</font></label> -->
+				<span>${error}</span>
+			</div>
 			</td>
 			</tr>
 				<tr>
 					<td valign="top">
 						<label for="first_name">First Name *</label>
 					</td>
-					<td valign="top">
+					<td valign="top" colspan='2'>
 						<form:input path="firstName"  type="text" name="firstName" size="30"/>
-						<form:errors path = "firstName"/>
+						<div id="error"><form:errors path = "firstName"/></div>
 					</td>
 				</tr>
 				<tr>
@@ -49,7 +52,7 @@
 					</td>
 					<td valign="top">
 						<form:input path="lastName"  type="text" name="lastName" size="30"/>
-							<form:errors path = "lastName"/>
+							<div id="error"><form:errors path = "lastName"/></div>
 					</td>
 				</tr>
 				
@@ -59,7 +62,7 @@
 					</td>
 					<td valign="top">
 						<form:input path="email"  type="text" name="email" size="30"/>
-							<form:errors path = "email"/>
+							<div id="error"><form:errors path = "email"/></div>
 					</td>
 				</tr>
 				<tr>
@@ -68,7 +71,7 @@
 					</td>
 					<td valign="top">
 						<form:input path="userId" type="text" name="userName" size="30"/>
-							<form:errors path = "userId"/>
+							<div id="error"><form:errors path = "userId"/></div>
 					</td>
 				</tr>
 				<tr>
@@ -77,7 +80,7 @@
 					</td>
 					<td valign="top">
 						<form:input path="password"  type="password" name="password" size="30"/>
-							<form:errors path = "password"/>
+							<div id="error"><form:errors path = "password"/></div>
 					</td>
 				</tr>
 				<tr>
@@ -86,7 +89,7 @@
 					</td>
 					<td valign="top">
 						<form:input path="confirmPassword" type="password" name="password" size="30"/>
-							<form:errors path = "confirmPassword"/>
+							<div id="error"><form:errors path = "confirmPassword"/></div>
 					</td>
 				</tr>
 				<tr>
@@ -96,6 +99,7 @@
 					<td valign="top">
 						Yes: <form:radiobutton path="customerType"  name="isMerchant" value="1"/>
 						No: <form:radiobutton path="customerType" name="isMerchant" value="0"/>
+						<div id="error"><form:errors path = "customerType"/></div>
 					</td>
 				</tr>
 				<tr>
@@ -104,7 +108,7 @@
 					</td>
 					<td valign="top">
 						<form:input path="phone" type="text" name="phone" maxlength="10" size="30"/>
-							<form:errors path = "phone"/>
+							<div id="error"><form:errors path = "phone"/></div>
 					</td>
 				</tr>
 				<tr>
@@ -113,7 +117,7 @@
 					</td>
 					<td valign="top">
 						<form:input path="address" type="text" name="address" size="30"/>
-							<form:errors path = "address"/>
+							<div id="error"><form:errors path = "address"/></div>
 					</td>
 				</tr>
 				<tr>
@@ -122,12 +126,12 @@
 					</td>
 					<td valign="top">
 						<form:input path="city" type="text" name="city" size="30"/>
-							<form:errors path = "city"/>
+							<div id="error"><form:errors path = "city"/></div>
 					</td>
 				</tr>
 				</table>
 
-				<p><input type="submit" id="but_reg2" value="Submit">
+				<p><input type="submit" id="but_reg2" value="Submit"></p>
 		</form:form>
 		</div>
 	</div>
