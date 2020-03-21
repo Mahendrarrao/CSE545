@@ -54,10 +54,7 @@
 				<tr>
 					<td>Password:</td>
 					<td>
-						<input   type="password" name="password" placeholder="Password" />
-						<span>${error}</span>
-						 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-						
+						<input type="password" name="password" placeholder="Password" />
 					</td>
 				</tr>
 				<tr>
@@ -65,6 +62,10 @@
 					<label for="external">User/Merchant</label></td>
 					<td><input type="radio" id="internal" name="usertyp" value="internal">
 					<label for="internal">Employee</label></td>				
+				</tr>
+				<tr>
+				<span>${error}</span>
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>	
 				</tr>
 				<tr>
 					<td colspan='2'><input name="signin" id="signin" type="submit"
