@@ -1,7 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
- 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -28,7 +29,7 @@
                 <li><a href="extProfile.jsp"><span>Profile</span></a></li>
                 <li><a href="accmgmt.jsp"><span>Account Management</span></a></li> 
                 <li><a href="help.jsp"><span>Help and Support Center</span></a></li>
-                <li><a href="login.jsp"><span>Logout</span></a></li>       
+                <li><a href="<c:url value='/j_spring_security_logout'/>"><span>Logout</span></a></li>       
             </ol>
             <div align="center">
             <h2>Account List</h2>
