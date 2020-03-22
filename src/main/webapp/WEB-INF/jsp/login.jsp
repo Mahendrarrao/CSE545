@@ -78,7 +78,9 @@
 				</tr>
 			  </table>
 			  </form>
+			 
 			<a href="forgotpassword.jsp">Forgot username/password?></a><br>
+
 			<a href="register">Not enrolled? Sign up now. ></a>
 		</div> 
 	</div>
