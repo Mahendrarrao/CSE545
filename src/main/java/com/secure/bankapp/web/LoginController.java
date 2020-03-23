@@ -17,10 +17,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.secure.bankapp.model.ForgotPasswordForm;
+//import com.secure.bankapp.model.ForgotPasswordForm;
 import com.secure.bankapp.model.RegistrationForm;
 import com.secure.bankapp.model.SystemLog;
 import com.secure.bankapp.model.UserCred;
@@ -140,10 +141,10 @@ public class LoginController {
         return "welcome";
     }
     
-    @RequestMapping(value = "/forgotPassword", method = RequestMethod.GET)
-    public String forgotPassword(Model model) {
-        model.addAttribute("forgotPasswordForm", new ForgotPasswordForm());
-
-        return "forgotpassword";
-    }
+//    @RequestMapping(value = "/forgotPassword", method = RequestMethod.GET)
+//    public String forgotPassword(Model model) {
+////        model.addAttribute("forgotPasswordForm", new ForgotPasswordForm());
+//
+//        return "forgotpassword";
+//    }
 }

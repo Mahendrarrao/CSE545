@@ -54,28 +54,38 @@
 				<tr>
 					<td>Password:</td>
 					<td>
-						<input   type="password" name="password" placeholder="Password" />
-						<span>${error}</span>
-						 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-						
+						<input type="password" name="password" placeholder="Password" />
 					</td>
 				</tr>
-
+				<tr>
+					<td><input type="radio" id="external" name="usertyp" value="external">
+					<label for="external">User/Merchant</label></td>
+					<td><input type="radio" id="internal" name="usertyp" value="internal">
+					<label for="internal">Employee</label></td>				
+				</tr>
+				<tr><td colspan='2'>
+				<div id="error">
+					<span>${error}</span>
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>	
+				</div>
+				</td></tr>
 				<tr>
 					<td colspan='2'><input name="signin" id="signin" type="submit"
 					  value="Sign In" /></td>
 				</tr>
-				<tr>						
+				<tr>
+ 
+				</tr>
 			  </table>
-			</form> 
-			<a href="forgotpassword1.jsp">Forgot username/password?></a><br>
+			  </form>
+			 
+			<a href="forgotpassword.jsp">Forgot username/password?></a><br>
+
 			<a href="register">Not enrolled? Sign up now. ></a>
 		</div> 
 	</div>
 <div class="footer">
 <p>Footer</p>
 </div>
-	
-	
 </body>
 </html>
