@@ -4,6 +4,8 @@ public class Constants {
 	
 	public static final String VERIFY_NEEDED = "verifyNeeded";
 	
+	public static final String PASS_CHANGE = "changePass";
+	
 	public static final String USER_LOCKED = "userLocked";
 	
 	public static final String USER_ACTIVE = "active";
@@ -23,6 +25,8 @@ public class Constants {
 	public static final String USER_LOGIN = "USER_LOGIN";
 	
 	public static final String USER_LOGOUT = "USER_LOGOUT";
+
+	public static final String ACTIVE = "active";
 	
 	public static enum ACCOUNT_STATUS { ACTIVE, VERIFY_NEEDED, CLOSED}
 	

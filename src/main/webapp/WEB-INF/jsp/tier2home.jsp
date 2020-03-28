@@ -8,10 +8,11 @@
 
 <html>
   <head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Account Management</title>
         	<link href="/resources/css/style.css" rel="stylesheet" type="text/css" />
-          	<link href="tabs.css" rel="stylesheet" type="text/css" /> 
+    
     </head>
 <body>
 <div class="topnav">
@@ -55,6 +56,10 @@
 		</td>
 		</tr>
 		<tr>
+		 <a href="<c:url value='add'/>"><span>Add User</span></a> 
+		</tr>
+		
+		<tr>
 			<td>
 		      <a href="<c:url value='transactions'/>"><span>View Transactions</span></a>  	
 			</td>
@@ -70,5 +75,6 @@
 <div class="footer">
   <p>Footer</p>
 </div>
+
 </body>
 </html>

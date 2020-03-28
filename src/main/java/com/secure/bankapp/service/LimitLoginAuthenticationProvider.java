@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import com.secure.bankapp.model.SystemLog;
 import com.secure.bankapp.model.UserAttempts;
+import com.secure.bankapp.model.UserCred;
+import com.secure.bankapp.repository.UserCredentialRepository;
 import com.secure.bankapp.util.Constants;
 
 @Component("authenticationProvider")
@@ -25,6 +27,9 @@ public class LimitLoginAuthenticationProvider extends DaoAuthenticationProvider 
 	
 	@Autowired
 	private SystemLogService logService;
+	
+	@Autowired
+	private UserCredentialRepository userCredentialRepository;
 	
 	@Autowired
 	@Override
@@ -51,15 +56,25 @@ public class LimitLoginAuthenticationProvider extends DaoAuthenticationProvider 
 		return auth;
 			
 	  } catch (BadCredentialsException e) {	
-			
+			String error = "";
+			  UserCred user = userCredentialRepository.findByUserId(authentication.getName());
+			  if (user.getStatus().equals(Constants.PASS_CHANGE)) {
+				  error = "Please change password through Forgot Password"; 
+				  throw new LockedException(error);
+			  }
 		//invalid login, update to user_attempts
 		  userAttemptsService.updateFailAttempts(authentication.getName());
-		throw e;
+		
+		
+		  throw e;
 			
 	  } catch (LockedException e){
 			
 		//this user is locked!
-		String error = "";
+			String error = "";
+		
+		 
+
 		UserAttempts userAttempts = 
 				userAttemptsService.getUserAttempts(authentication.getName());
 		

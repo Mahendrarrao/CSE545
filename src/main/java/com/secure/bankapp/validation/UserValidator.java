@@ -36,7 +36,7 @@ public class UserValidator implements Validator {
         return RegistrationForm.class.equals(aClass);
     }
     
-   private static boolean  isBlankString(String string) {
+   public static boolean  isBlankString(String string) {
         return string == null || string.trim().isEmpty();
     }
 

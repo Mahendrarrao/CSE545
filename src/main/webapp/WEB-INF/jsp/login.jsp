@@ -42,6 +42,7 @@
 			<tr>
 			<td>
 			<span>${message}</span>
+			<span>${error}</span>
 			</td>
 			</tr>
 				<tr>
@@ -55,7 +56,7 @@
 					<td>Password:</td>
 					<td>
 						<input   type="password" name="password" placeholder="Password" />
-						<span>${error}</span>
+						
 						 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 						
 					</td>

@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -18,16 +20,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.secure.bankapp.model.Account;
+import com.secure.bankapp.model.RegistrationForm;
 import com.secure.bankapp.model.Search;
 import com.secure.bankapp.model.Transaction;
+import com.secure.bankapp.model.UserCred;
 import com.secure.bankapp.model.UserDetail;
 import com.secure.bankapp.model.UserProfile;
 import com.secure.bankapp.repository.UserCredentialRepository;
 import com.secure.bankapp.repository.UserDetailRepository;
 import com.secure.bankapp.service.AccountService;
 import com.secure.bankapp.service.TransactionService;
+import com.secure.bankapp.service.UserService;
+import com.secure.bankapp.util.Constants;
 import com.secure.bankapp.validation.ProfileValidator;
 import com.secure.bankapp.validation.SearchValidator;
+import com.secure.bankapp.validation.UserValidator;
 
 @Controller
 public class Tier2EmployeeController {
@@ -42,10 +49,16 @@ public class Tier2EmployeeController {
 	private UserDetailRepository UserDetailRepository;
 	
 	@Autowired
+	private UserCredentialRepository userCredentialRepository;
+	
+	@Autowired
 	private ProfileValidator profileValidator;
 	
 	@Autowired
 	private SearchValidator searchValidator;
+	
+	 @Autowired
+	    private UserService userService;
 	
 
 	
@@ -68,7 +81,9 @@ public class Tier2EmployeeController {
 	//Tier 2 Employees can create customer's accounts.
 	//TODO//
 	
-	
+
+    @Autowired
+    private UserValidator userValidator;
 	//Tier 2 Employees can modify customer's accounts.
 	@RequestMapping(value = {"/emp2/update/" }, method = RequestMethod.POST)
 	public String modifyUserAccount(@ModelAttribute("userProfile") UserDetail userProfile, Model model) {
@@ -161,12 +176,61 @@ public class Tier2EmployeeController {
 	
 		return "redirect:/emp2/profile";
 	}
+	 @RequestMapping(value = "/emp2/add", method = RequestMethod.GET)
+	    public String registration(Model model) {
+	        model.addAttribute("userForm", new RegistrationForm());
+
+	        return "addUser";
+	    }
+
+	    @RequestMapping(value = "/emp2/add", method = RequestMethod.POST)
+	    public String registration(@Valid @ModelAttribute("userForm") RegistrationForm userForm, BindingResult bindingResult, Model model) {
+	       userForm.setPassword("test1234");
+	       userForm.setConfirmPassword("test1234");
+	    	userValidator.validate(userForm, bindingResult);
+
+	        if (bindingResult.hasErrors()) {
+	            return "addUser";
+	        }
+	        
+	      //  userForm.setUserType(userType);
+	        UserCred userCred = new UserCred();
+	        userCred.setUserId(userForm.getUserId());
+	        userCred.setPassword(userForm.getPassword());
+	        userCred.setRoleId(Long.parseLong(userForm.getCustomerType()));
+	        userCred.setStatus(Constants.PASS_CHANGE);
+	        
+	        UserDetail userDetail = new UserDetail();
+	        userDetail.setFullName(userForm.getFirstName() + " " + userForm.getLastName());
+	        userDetail.setUserId(userForm.getUserId());
+	        userDetail.setEmail(userForm.getEmail());
+	        userDetail.setPhone(userForm.getPhone());
+	        userDetail.setCreatedAt(Date.valueOf(LocalDate.now()));
+	        userDetail.setUpdatedOn(Date.valueOf(LocalDate.now()));
+	        userDetail.setDob(Date.valueOf(LocalDate.now()));
+	        userDetail.setGender(userForm.getGender());
+	        userDetail.setAddress(userForm.getAddress() + ", " + userForm.getCity());
+	        userService.save(userCred, userDetail);
+	    	model.addAttribute("message", "User Added successfully");
+			return tier2EmployeeController.home(model) ;
+	      
+	    }
 	
 	@RequestMapping(value = "/emp2/user", method = RequestMethod.POST)
 	public String view(@ModelAttribute("search") Search option,  Model model) {	
+		if(UserValidator.isBlankString(option.getUserName())) {
+			model.addAttribute("message", "Field should not be empty");
+			return tier2EmployeeController.home(model) ;
+		}
 		
 		UserDetail userDetail = UserDetailRepository.findByUserId(option.getUserName());
+		UserCred user = userCredentialRepository.findByUserId(option.getUserName());
 		
+		if(userDetail== null || user.getRoleId() != 0 )
+		{
+			model.addAttribute("message", "User not found");
+			return tier2EmployeeController.home(model) ;
+		}
 		getAccountList(model, option.getUserName());
 		Account account = new Account();
 		account.setUserId(option.getUserName());

@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import com.secure.bankapp.service.ElemailService;
 import com.secure.bankapp.service.OTPService;
+import com.secure.bankapp.util.Constants;
 import com.secure.bankapp.util.EmailTemplate;
 import com.secure.bankapp.repository.UserCredentialRepository;
 import com.secure.bankapp.repository.UserDetailRepository;
@@ -132,7 +133,7 @@ public class OtpController {
 		 
 		UserCred user =  rep.findByUserId(form.getUserId());
 		 BCryptPasswordEncoder passwordEncoder =new BCryptPasswordEncoder();
-		 
+		 user.setStatus(Constants.ACTIVE);
 		user.setPassword(passwordEncoder.encode(form.getPassword()));
 		rep.save(user);
 		

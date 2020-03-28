@@ -13,6 +13,14 @@ public class RegistrationForm {
 	private String phone;
 	private String address;
 	private String city;
+	private String gender= "male";
+	
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 	public String getFirstName() {
 		return firstName;
 	}
