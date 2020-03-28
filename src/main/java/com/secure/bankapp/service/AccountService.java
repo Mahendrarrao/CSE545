@@ -36,6 +36,8 @@ public interface AccountService {
 	void transferByPhone(String phone, String userId, Double funds);
 
 	void transferByEmail(String email, String userId, Double funds);
+
+	public void deleteByUserId(String userName);
 	
 	
 	

@@ -78,7 +78,7 @@ public class LoginController {
 
         userService.save(userCred, userDetail);
 
-        return "redirect:/welcome";
+        return "login";
     }
     
 
@@ -117,9 +117,10 @@ public class LoginController {
   		return error;
   	}
 
-    @RequestMapping(value = {"/","/welcome"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/"}, method = RequestMethod.GET)
     public String welcome(Model model) {
     	User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	if (user != null) {
     	String role = user.getAuthorities().iterator().next().getAuthority().toString();
     	
     	if(role.equals(Constants.ROLE_CUSTOMER))
@@ -132,18 +133,14 @@ public class LoginController {
     		return "welcome";
     	
     	if(role.equals(Constants.ROLE_TIER2))
-    		return "welcome";
+    		return "redirect:emp2/home";
     	
     	if(role.equals(Constants.ROLE_ADMIN))
     		return "welcome";
+    	}
     	
-        return "welcome";
+        return "login";
     }
     
-    @RequestMapping(value = "/forgotPassword", method = RequestMethod.GET)
-    public String forgotPassword(Model model) {
-        model.addAttribute("forgotPasswordForm", new ForgotPasswordForm());
-
-        return "forgotpassword";
-    }
+   
 }

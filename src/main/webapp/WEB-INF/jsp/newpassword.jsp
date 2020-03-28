@@ -21,7 +21,7 @@
     <div class="content">
         <center><h1>Welcome to Sun Financial</h1></center>
         <div id="login-box">
-            <h3> Forgot Password </h3>
+            <h3> New Password </h3>
         <%--     <form:form name="frm" action="sendtoemailforgotpassword"  method="post">
             <table>           
                 <tr>
@@ -41,21 +41,27 @@
             </table>
             </form:form> --%>
 
-		<form:form method="POST" modelAttribute="forgotPasswordForm"
-			action="/forgotPassword">
+		<form:form method="POST" modelAttribute="passwordForm"
+			action="/setPassword">
 			<table>           
               <tr>
               <span>
               ${message}</span>
               </tr>
                 <tr>
-                    <td>User Id:</td>
-                    <td>	<form:input path="userId"  type="text" name="userId" size="30"/>
-						<form:errors path = "userId"/></td>
+                    <td>Password:</td>
+                    <td>	<form:input path="password"  type="password"/>
+		
                 </tr>
                 <tr>
+                    <td>Confirm Password:</td>
+                    <td>	<form:input  path="confirmPassword"  type="password"/>
+			
+                </tr>
+                <form:hidden path="userId"/>
+                <tr>
                     <td colspan="2"> 
-        				<input type="submit" id="sendotp" value="Send OTP" />
+        				<input type="submit" id="setPassword" value="Set Password" />
     				</td>              
                    
                 </tr>

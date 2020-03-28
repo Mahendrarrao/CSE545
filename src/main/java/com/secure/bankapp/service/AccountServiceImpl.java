@@ -7,12 +7,15 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.secure.bankapp.exception.InsufficientBalanceException;
 import com.secure.bankapp.model.Account;
 import com.secure.bankapp.model.Transaction;
 import com.secure.bankapp.model.UserDetail;
 import com.secure.bankapp.repository.AccountRepository;
+import com.secure.bankapp.repository.UserCredentialRepository;
+import com.secure.bankapp.repository.UserDetailRepository;
 import com.secure.bankapp.util.Constants;
 
 @Service
@@ -27,6 +30,11 @@ public class AccountServiceImpl implements AccountService {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private UserCredentialRepository userCredentialRepository;
+	@Autowired
+	private UserDetailRepository UserDetailRepository;
+	
 	@Override
 	public void saveAccount(Account account) {
 		// TODO Auto-generated method stub
@@ -40,7 +48,15 @@ public class AccountServiceImpl implements AccountService {
 	public void deleteAccount(Account account) {
 		// TODO Auto-generated method stub
 		
+		
 		accountRepository.delete(account);
+		List<Account> list= accountRepository.findByUserId(account.getUserId());
+		if(list.size() > 0) {
+		Account acc=	list.get(0);
+		acc.setDefaultAccount(true);
+		accountRepository.save(acc);
+			
+		}
 		
 	}
 
@@ -88,8 +104,7 @@ public class AccountServiceImpl implements AccountService {
 		} else {
 			
 			account.setBalance(afterAction);
-			transaction.setStatus(Constants.TRANSACTION_STATUS.COMPLETED.toString());
-			transactionService.saveTransaction(transaction);
+			accountRepository.save(account);
 			
 		}
 			
@@ -103,8 +118,7 @@ public class AccountServiceImpl implements AccountService {
 		try {
 			Double afterAction = account.getBalance() + transaction.getTransactionValue();
 			account.setBalance(afterAction);
-			transaction.setStatus(Constants.TRANSACTION_STATUS.COMPLETED.toString());
-			transactionService.saveTransaction(transaction);
+			accountRepository.save(account);
 			
 		} catch(Exception e) {
 			transaction.setStatus(Constants.TRANSACTION_STATUS.FAILED.toString());
@@ -178,6 +192,16 @@ public class AccountServiceImpl implements AccountService {
 	public void generateBankStatement(Account account) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	
+	@Override
+	@Transactional
+	public void deleteByUserId(String userName) {
+		// TODO Auto-generated method stub
+		UserDetailRepository.deleteById(userName);
+		userCredentialRepository.deleteById(userName);
+		accountRepository.deleteByUserId(userName);
 	}
 
 	

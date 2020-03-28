@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -36,9 +37,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	    protected void configure(HttpSecurity http) throws Exception {
 	        http .csrf().disable()
 	                .authorizeRequests()
-	                    .antMatchers("/resources/**", "/register", "/forgotPassword").permitAll()
+	                    .antMatchers("/resources/**", "/register", "/forgotPassword","/emp2/resources/**" , "/generateOtp", "/validateOTP", "/setPassword").permitAll()
 	                    .antMatchers("/emp2/**").hasRole("TIER2")
 	                    .antMatchers("/emp1/**").hasRole("TIER1")
+	                    .anyRequest().authenticated()
 	                    .and()
 	                .formLogin()
 	                    .loginPage("/login")
@@ -51,6 +53,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	        
 	    }
+	    
+	    @Override
+	    public void configure( WebSecurity web ) throws Exception {
+	       web.ignoring().antMatchers( "/bootstrap/**", "/dist/**", "/plugins/**");
+	   }
 
 	    @Autowired
 	    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {

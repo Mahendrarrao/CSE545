@@ -1,6 +1,7 @@
 package com.secure.bankapp.model;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.springframework.data.annotation.Transient;
 
 @Entity
 @Table(name = "transactions")
@@ -23,8 +26,19 @@ public class Transaction {
 	private String userId;
 	private Date transactionDate;
 	private Boolean isCritical;
+
+	private String[] transactions;
 	
 	
+	
+	
+	@javax.persistence.Transient
+	public String[] getTransactions() {
+		return transactions;
+	}
+	public void setTransactions(String[] transactions) {
+		this.transactions = transactions;
+	}
 	@Column(name="is_critical")
 	public Boolean getIsCritical() {
 		return isCritical;

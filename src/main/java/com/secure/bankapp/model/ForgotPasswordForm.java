@@ -2,19 +2,24 @@ package com.secure.bankapp.model;
 
 public class ForgotPasswordForm {
 	
-	private String email;
-	private String confirmEmail;
-	public String getEmail() {
-		return email;
+	private String userId;
+	private Integer OTP;
+	public String getUserId() {
+		return userId;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
-	public String getConfirmEmail() {
-		return confirmEmail;
+
+	public Integer getOTP() {
+		return OTP;
 	}
-	public void setConfirmEmail(String confirmEmail) {
-		this.confirmEmail = confirmEmail;
+
+	public void setOTP(Integer oTP) {
+		OTP = oTP;
 	}
+
+
 
 }

@@ -21,41 +21,26 @@
     <div class="content">
         <center><h1>Welcome to Sun Financial</h1></center>
         <div id="login-box">
-            <h3> Forgot Password </h3>
-        <%--     <form:form name="frm" action="sendtoemailforgotpassword"  method="post">
-            <table>           
-                <tr>
-                    <td>Email:</td>
-                    <td><input type='text' id='email' name='email'></td>
-                </tr>
-                <tr>
-                    <td>Confirm Email:</td>
-                    <td><input type='text' id='confirmemail' name='confirmemail'></td>
-                </tr>
-                <tr>
-                    <td colspan="2"> 
-        				<input type="submit" id="sendotp" value="Send OTP" />
-    				</td>              
-                   
-                </tr>
-            </table>
-            </form:form> --%>
+            <h3> Enter OTP </h3>
 
 		<form:form method="POST" modelAttribute="forgotPasswordForm"
-			action="/forgotPassword">
+			action="/validateOTP">
 			<table>           
               <tr>
               <span>
               ${message}</span>
               </tr>
                 <tr>
-                    <td>User Id:</td>
-                    <td>	<form:input path="userId"  type="text" name="userId" size="30"/>
-						<form:errors path = "userId"/></td>
+                    <td>OTP:</td>
+                    <td>	<form:input path="OTP"  type="text" name="OTP" size="6"/>
+						
+                </tr>
+                <tr>
+                <form:hidden path="userId"/>
                 </tr>
                 <tr>
                     <td colspan="2"> 
-        				<input type="submit" id="sendotp" value="Send OTP" />
+        				<input type="submit" id="validateOTP" value="Validate OTP" />
     				</td>              
                    
                 </tr>

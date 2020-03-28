@@ -18,7 +18,7 @@ public class UserDetail {
 	
 	private String  email;
 	
-	private String  gender;
+	private String  gender="male";
 	
 	private Date  dob;
 	

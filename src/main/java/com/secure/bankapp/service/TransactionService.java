@@ -14,14 +14,14 @@ public interface TransactionService {
 	
 	public List<Transaction> getNonCriticalTransactions();
 	
-	public void approveTransaction(Transaction transaction);
+	public void approveTransaction(Long transaction);
 	
-	public void rejectTransaction(Transaction transaction);
+	public void rejectTransaction(Long transaction);
 	
 	public void saveTransaction(Transaction transaction);
 
-	public void approveTransactions(List<Transaction> transactions);
+	public void approveTransactions(String[] list);
 
-	public void rejectTransactions(List<Transaction> transactions);
+	void rejectTransactions(String[] transactions);
 	
 }
