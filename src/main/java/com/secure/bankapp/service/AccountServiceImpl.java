@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -126,6 +127,58 @@ public class AccountServiceImpl implements AccountService {
 		}
 		
 	}
+	
+	@Override
+	public void creditFundsByEmp1(Account account) {
+		// TODO Auto-generated method stub
+		Transaction transaction = new Transaction();
+		try {
+		
+			Account acc1= accountRepository.findById(account.getAccountId()).get();
+			transaction.setToAccount(0000000001L);
+			transaction.setFromAccount(account.getAccountId());
+			transaction.setTransactionDate(Date.valueOf(LocalDate.now()));
+			transaction.setTransactionValue(account.getBalance());
+			transaction.setUserId(acc1.getUserId());
+			transaction.setStatus(Constants.TRANSACTION_STATUS.COMPLETED.toString());
+			transaction.setTransactionType(Constants.TRANSACTION_TYPE.CREDIT.toString());
+			Double afterAction = acc1.getBalance() + account.getBalance();
+			acc1.setBalance(afterAction);
+			accountRepository.save(acc1);
+			transactionService.saveTransaction(transaction);
+		
+			
+		} catch(Exception e) {
+			transaction.setStatus(Constants.TRANSACTION_STATUS.FAILED.toString());
+			transactionService.saveTransaction(transaction);
+		}
+		
+	}
+	
+	@Override
+	public void debitFundsByEmp1(Account account) {
+		// TODO Auto-generated method stub
+		Transaction transaction = new Transaction();
+		try {
+		
+			Account acc1= accountRepository.findById(account.getAccountId()).get();
+			transaction.setFromAccount(0000000001L);
+			transaction.setToAccount(account.getAccountId());
+			transaction.setTransactionDate(Date.valueOf(LocalDate.now()));
+			transaction.setTransactionValue(account.getBalance());
+			transaction.setTransactionType(Constants.TRANSACTION_TYPE.DEBIT.toString());
+			transaction.setStatus(Constants.TRANSACTION_STATUS.COMPLETED.toString());
+			Double afterAction = acc1.getBalance() - account.getBalance();
+			acc1.setBalance(afterAction);
+			accountRepository.save(acc1);
+			transactionService.saveTransaction(transaction);
+			
+		} catch(Exception e) {
+			transaction.setStatus(Constants.TRANSACTION_STATUS.FAILED.toString());
+			transactionService.saveTransaction(transaction);
+		}
+		
+	}
 
 	@Override
 	public void transferFunds(Account toAccount, Account fromAccount, Double funds) {
@@ -202,6 +255,39 @@ public class AccountServiceImpl implements AccountService {
 		UserDetailRepository.deleteById(userName);
 		userCredentialRepository.deleteById(userName);
 		accountRepository.deleteByUserId(userName);
+	}
+
+	@Override
+	public void createAccount(String userId) {
+		// TODO Auto-generated method stub
+		
+	Account  account = new Account();
+	account.setAccountId(createAccountNumber());
+	account.setBalance(0.0);
+	account.setCreatedDate(Date.valueOf(LocalDate.now()));
+	account.setUserId(userId);
+	account.setUpdatedDate(Date.valueOf(LocalDate.now()));
+	if (accountRepository.findByUserId(userId).size() == 0) {
+		account.setDefaultAccount(true);
+		
+	}
+	account.setAccountStatus(Constants.ACCOUNT_STATUS.ACTIVE.toString());
+	accountRepository.save(account);
+		
+	}
+	
+	private Long createAccountNumber() {
+		int min = 1000000000;
+		int max = 2000000000;
+		Random r = new Random();
+		while (true) {
+			int no = r.nextInt((max - min) +1) + min;
+			Long l = new Long(no);
+			if (!accountRepository.findById(l).isPresent() )
+				return l;
+		}
+	
+	
 	}
 
 	

@@ -32,6 +32,14 @@ public class Constants {
 	
 	public static enum TRANSACTION_STATUS { COMPLETED, PENDING_APPROVAL, FAILED, REJECTED}
 	
+	public static enum TRANSACTION_TYPE { CREDIT, DEBIT}
+	
+	public static enum REQUEST_STATUS { COMPLETED, PENDING_APPROVAL, FAILED, REJECTED}
+	
+	public static enum REQUEST_TYPE { NEWACCOUNT, APPOINTMENT}
+	
+
+	
 	
 	
 	

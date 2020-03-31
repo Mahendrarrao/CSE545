@@ -40,7 +40,7 @@ public class TransactionServiceImpl implements TransactionService {
 	@Override
 	public List<Transaction> getNonCriticalTransactions() {
 		// TODO Auto-generated method stub
-		return transactionRepository.findByIsCritical(false);
+		return transactionRepository.findByIsCriticalAndStatus(false, Constants.TRANSACTION_STATUS.PENDING_APPROVAL.toString());
 	}
 
 	@Override

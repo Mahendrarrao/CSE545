@@ -45,28 +45,12 @@
 
 		 </td>
 			
-		</tr>
-		<tr>
-		<td>
-		 <form:form  method="post" modelAttribute="delete">
-       <form:input path="userName"  />
-            <form:errors path = "userName"/>
-      <input id="makechanges" type="submit" value="Delete User" />
-      </form:form>
-		</td>
-		</tr>
-		<tr>
-		 <a href="<c:url value='add'/>"><span>Add User</span></a> 
-		</tr>
+	
+	
 		
 		<tr>
 			<td>
 		      <a href="<c:url value='transactions'/>"><span>View Transactions</span></a>  	
-			</td>
-		</tr>
-			<tr>
-			<td>
-		      <a href="<c:url value='requests'/>"><span>View Requests</span></a>  	
 			</td>
 		</tr>
 		

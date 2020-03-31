@@ -43,6 +43,13 @@ public class LimitLoginAuthenticationProvider extends DaoAuthenticationProvider 
 
 	  try {
 
+	UserCred user =	  userCredentialRepository.findByUserId(authentication.getName());
+	if (user != null) {
+		  if (user.getStatus().equals(Constants.VERIFY_NEEDED)) {
+			  String error = Constants.VERIFY_NEEDED + "," + user.getUserId(); 
+			  throw new LockedException(error);
+		  }
+	}
 		Authentication auth = super.authenticate(authentication);
 			
 		//if reach here, means login success, else an exception will be thrown

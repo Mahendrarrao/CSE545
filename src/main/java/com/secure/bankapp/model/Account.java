@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "account")
@@ -21,10 +22,17 @@ public class Account {
 	private String accountStatus;
 	private String userId;
 	private boolean defaultAccount;
+	private String name;
 	
 	
 	
-	
+	@Transient
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	@Column(name = "default_account")
 	public boolean isDefaultAccount() {
 		return defaultAccount;

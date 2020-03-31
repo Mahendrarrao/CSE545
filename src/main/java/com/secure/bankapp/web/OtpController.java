@@ -82,6 +82,56 @@ public class OtpController {
 
 		return "validateOTP";
 	}
+	
+	
+	public String generateOtp1(ForgotPasswordForm form, Model model ){
+
+		
+		UserDetail user = userDetailRepo.findByUserId(form.getUserId());
+
+	
+		
+		int otp = oTPService.generateOTP(form.getUserId());
+		logger.info("Generated OTP is: "+otp);
+		EmailTemplate template = new EmailTemplate("SendOtp.html");
+
+		Map<String,String> replaceData = new HashMap<String,String>();
+		replaceData.put("user", form.getUserId());
+		replaceData.put("otpnum", String.valueOf(otp));
+
+		String message = template.getTemplate(replaceData);
+		String email = user.getEmail();
+
+		elemailService.sendOtpMessage(email, "OTP -SpringBoot", message);
+		model.addAttribute("forgotPasswordForm", form);
+		
+
+		return "verifyOTP";
+	}
+	
+	
+	@RequestMapping(value ="/verifyOTP", method = RequestMethod.POST)
+	public  String verifyOTP( @ModelAttribute("forgotPasswordForm") ForgotPasswordForm form, Model model){
+		final String FAIL = "Incorrect OTP entered, Please retry!";
+		if(form.getOTP() == null) {
+			model.addAttribute("message", "OTP empty");
+			return "verifyOTP";
+		}
+		
+		int otpnum = form.getOTP();
+		//Validate the Otp
+		int serverOtp = oTPService.getOtp(form.getUserId());
+		if(otpnum == serverOtp){
+			oTPService.clearOTP(form.getUserId());
+		UserCred user = rep.findByUserId(form.getUserId());
+		user.setStatus(Constants.ACTIVE);
+		rep.save(user);
+			return "redirect:/login" ;
+		}else{
+			model.addAttribute("message", FAIL);
+			return "verifyOTP";
+		}
+	}
 
 	@RequestMapping(value ="/validateOTP", method = RequestMethod.POST)
 	public  String validateOTP( @ModelAttribute("forgotPasswordForm") ForgotPasswordForm form, Model model){

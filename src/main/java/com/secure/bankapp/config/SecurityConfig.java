@@ -37,9 +37,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	    protected void configure(HttpSecurity http) throws Exception {
 	        http .csrf().disable()
 	                .authorizeRequests()
-	                    .antMatchers("/resources/**", "/register", "/forgotPassword","/emp2/resources/**" , "/generateOtp", "/validateOTP", "/setPassword").permitAll()
+	                    .antMatchers("/resources/**", "/register", "/forgotPassword","/emp2/resources/**" , "/generateOtp", "/validateOTP", "/setPassword", "/verifyOTP").permitAll()
 	                    .antMatchers("/emp2/**").hasRole("TIER2")
 	                    .antMatchers("/emp1/**").hasRole("TIER1")
+	                    .antMatchers("/user/**").hasRole("CUSTOMER")
 	                    .anyRequest().authenticated()
 	                    .and()
 	                .formLogin()

@@ -38,6 +38,12 @@ public interface AccountService {
 	void transferByEmail(String email, String userId, Double funds);
 
 	public void deleteByUserId(String userName);
+
+	void creditFundsByEmp1(Account account);
+
+	void debitFundsByEmp1(Account account);
+
+	public void createAccount(String userId);
 	
 	
 	

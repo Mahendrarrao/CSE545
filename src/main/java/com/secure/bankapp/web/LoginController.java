@@ -36,10 +36,15 @@ public class LoginController {
     @Autowired
     private UserService userService;
     
+ 
+    
    
 
     @Autowired
     private UserValidator userValidator;
+    
+    @Autowired
+    private OtpController otpController;
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String registration(Model model) {
@@ -77,16 +82,29 @@ public class LoginController {
         
 
         userService.save(userCred, userDetail);
-
-        return "login";
+        
+ForgotPasswordForm form = new ForgotPasswordForm();
+form.setUserId(userForm.getUserId());
+        return otpController.generateOtp1(form, model);
     }
     
 
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model, String error, String logout,HttpServletRequest request) {
-    	if (error != null)
+
+    	if (error != null) {
+    		if (getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION").contains(Constants.VERIFY_NEEDED)) {
+    			
+    			ForgotPasswordForm form = new ForgotPasswordForm();
+    			form.setUserId(getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION").split(",")[1]);
+    			
+    			
+    			
+    			 return otpController.generateOtp1(form, model);
+    		}
             model.addAttribute("error", getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION"));
+    	}
 
         if (logout != null)
         {
@@ -124,13 +142,12 @@ public class LoginController {
     	String role = user.getAuthorities().iterator().next().getAuthority().toString();
     	
     	if(role.equals(Constants.ROLE_CUSTOMER))
-    		return "welcome";
+    		return "redirect:user/home";
     	
-    	if(role.equals(Constants.ROLE_MERCHANT))
-    		return "welcome";
+  
     	
     	if(role.equals(Constants.ROLE_TIER1))
-    		return "welcome";
+    		return "redirect:emp1/home";
     	
     	if(role.equals(Constants.ROLE_TIER2))
     		return "redirect:emp2/home";

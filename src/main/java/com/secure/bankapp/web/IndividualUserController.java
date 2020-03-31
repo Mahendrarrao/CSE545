@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.secure.bankapp.model.Account;
 import com.secure.bankapp.model.Transaction;
@@ -30,6 +31,13 @@ public class IndividualUserController {
 	
 	@Autowired
 	private UserDetailRepository UserDetailRepository;
+	
+	@RequestMapping(value = "/user/home", method = RequestMethod.GET)
+	public String home(Model model) {
+	
+
+		return "home";
+	}
 
 	//Begin Mappings for Individual Users (Individual Customers)
 	//Functions addressing functionality described in Course Project Requirements Document namely,

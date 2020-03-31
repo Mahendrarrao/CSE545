@@ -37,36 +37,33 @@
 			</tr>
 		<tr>
 		<td>
-      <form:form action="user" method="post" modelAttribute="search">
-       <form:input path="userName"  />
-            <form:errors path = "userName"/>
-      <input id="makechanges" type="submit" value="Search User" />
-      </form:form>
+     <a href="<c:url value='transfer'/>"><span>Transfer Funds</span></a>  
 
 		 </td>
-			
-		</tr>
+		
+		<tr>
 		<tr>
 		<td>
-		 <form:form  method="post" modelAttribute="delete">
-       <form:input path="userName"  />
-            <form:errors path = "userName"/>
-      <input id="makechanges" type="submit" value="Delete User" />
-      </form:form>
-		</td>
-		</tr>
+     <a href="<c:url value='byEmail'/>"><span>Transfer Funds by Email</span></a>  
+
+		 </td>
+		
 		<tr>
-		 <a href="<c:url value='add'/>"><span>Add User</span></a> 
+		<tr>
+		<td>
+     <a href="<c:url value='byPhone'/>"><span>Transfer Funds by Phone</span></a>  
+
+		 </td>
+		
+		<tr>
+			<td>
+		      <a href="<c:url value='accounts'/>"><span>View Accounts</span></a>  	
+			</td>
 		</tr>
 		
 		<tr>
 			<td>
-		      <a href="<c:url value='transactions'/>"><span>View Transactions</span></a>  	
-			</td>
-		</tr>
-			<tr>
-			<td>
-		      <a href="<c:url value='requests'/>"><span>View Requests</span></a>  	
+		      <a href="<c:url value='accounts'/>"><span>View Transactions</span></a>  	
 			</td>
 		</tr>
 		

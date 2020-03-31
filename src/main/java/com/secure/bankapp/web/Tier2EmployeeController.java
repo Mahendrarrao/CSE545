@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.secure.bankapp.model.Account;
 import com.secure.bankapp.model.RegistrationForm;
+import com.secure.bankapp.model.Request;
 import com.secure.bankapp.model.Search;
 import com.secure.bankapp.model.Transaction;
 import com.secure.bankapp.model.UserCred;
@@ -29,6 +30,7 @@ import com.secure.bankapp.model.UserProfile;
 import com.secure.bankapp.repository.UserCredentialRepository;
 import com.secure.bankapp.repository.UserDetailRepository;
 import com.secure.bankapp.service.AccountService;
+import com.secure.bankapp.service.RequestService;
 import com.secure.bankapp.service.TransactionService;
 import com.secure.bankapp.service.UserService;
 import com.secure.bankapp.util.Constants;
@@ -60,7 +62,8 @@ public class Tier2EmployeeController {
 	 @Autowired
 	    private UserService userService;
 	
-
+@Autowired
+private RequestService requestService;
 	
 	@Autowired
 	private Tier2EmployeeController tier2EmployeeController;
@@ -305,6 +308,26 @@ public class Tier2EmployeeController {
 		model.addAttribute("selectedTransactions", new Transaction());
 
 		return "criticaltransactions";
+	}
+	
+	@RequestMapping(value = "/emp2/requests", method = RequestMethod.GET)
+	public String requests( Model model) {
+		model.addAttribute("requestList", requestService.getRequests(Constants.REQUEST_STATUS.PENDING_APPROVAL.toString()));
+		model.addAttribute("selectedRequests", new Request());
+
+		return "viewrequests";
+	}
+	
+	@RequestMapping(value = "/emp2/requests/action", method = RequestMethod.POST)
+	public String approveRequests(@ModelAttribute("selectedTransactions") Request request, @RequestParam String action, Model model) {
+		//TODO
+		//Need to ensure transactions supplied by tier 2 employee are able to be authorized (approved) by tier 2 employee.
+		if (action.equals("Approve"))
+		requestService.approveRequests(request.getRequests());
+		else if(action.equals("Reject"))
+			requestService.rejectRequests(request.getRequests());
+
+		return "redirect:/emp2/requests/";
 	}
 
 }
