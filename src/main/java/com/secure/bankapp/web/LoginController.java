@@ -153,7 +153,7 @@ form.setUserId(userForm.getUserId());
     		return "redirect:emp2/home";
     	
     	if(role.equals(Constants.ROLE_ADMIN))
-    		return "welcome";
+    		return "redirect:admin/home";
     	}
     	
         return "login";

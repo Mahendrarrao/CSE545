@@ -14,7 +14,7 @@ public class RegistrationForm {
 	private String address;
 	private String city;
 	private String gender= "male";
-	
+
 	public String getGender() {
 		return gender;
 	}
