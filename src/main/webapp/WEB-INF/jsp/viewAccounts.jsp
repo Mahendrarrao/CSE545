@@ -85,6 +85,28 @@
            </c:if>
       </div>
       
+      <c:if test="${transactions != null}">
+      <table border="2" >
+			<tr>
+			
+				<th> Transaction Id </th>
+				<th> Account </th>
+				<th> Date </th>
+				<th> Transaction Value </th>
+				<th> Status </th>
+			
+			</tr>
+			<c:forEach var="transaction" items="${transactions}">
+				<tr>
+					<td>${transaction.id}</td>
+					<td>${account.accountId}</td>
+					<td>${transaction.transactionDate}</td>
+					<td>${transaction.transactionValue}</td>
+					<td>${transaction.status}</td>
+				<tr>
+			</c:forEach>
+			</table>
+      </c:if>
   </div>
   </div>
 </div>

@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -154,10 +155,15 @@ model.addAttribute("appointment", new Appointment());
 			return modelAndView;
 		} else if (submit.equals("Generate Statement")) {
 			
-			return postDownloadStatement(model,acc1);
-		
-			
-		}
+			return postDownloadStatement(model,acc1);			
+		}else if (submit.equals("View Account")) {
+			UserDetail user = UserDetailRepository.findByUserId(SecurityContextHolder.getContext().getAuthentication().getName());
+			List<Transaction> transactions = transactionService.getTransactionsByAccountId(account.getAccountId());
+			Collections.sort(transactions);
+			model.addAttribute("user", user);
+			model.addAttribute("account", account);
+			model.addAttribute("transactions", transactions);
+		} 
 
 	
 		modelAndView.addObject("statusmsg", "Account set successfully");

@@ -3,6 +3,7 @@ package com.secure.bankapp.web;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -310,6 +311,8 @@ private RequestService requestService;
 	//PLEASE COMMENT FUNCTION//
 	@RequestMapping(value = "/emp2/transactions", method = RequestMethod.GET)
 	public String getTransactionsEmp2( Model model) {
+		List<Transaction> transactions = transactionService.getCriticalTransactions();
+		Collections.sort(transactions);
 		model.addAttribute("transactionList", transactionService.getCriticalTransactions());
 		model.addAttribute("selectedTransactions", new Transaction());
 
