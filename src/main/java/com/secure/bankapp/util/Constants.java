@@ -38,6 +38,8 @@ public class Constants {
 	
 	public static enum REQUEST_TYPE { NEWACCOUNT, APPOINTMENT}
 	
+	public static final String	PASSWORD_PATTERN = "^[a-zA-Z0-9]+$";
+	
 
 	
 	

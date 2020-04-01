@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.validation.Valid;
 
@@ -218,12 +219,17 @@ private RequestService requestService;
 			return tier2EmployeeController.home(model) ;
 	      
 	    }
-	
+	Pattern pattern ;
 	@RequestMapping(value = "/emp2/user", method = RequestMethod.POST)
 	public String view(@ModelAttribute("search") Search option,  Model model) {	
 		if(UserValidator.isBlankString(option.getUserName())) {
 			model.addAttribute("message", "Field should not be empty");
 			return tier2EmployeeController.home(model) ;
+		}
+		if (!pattern.matches(Constants.PASSWORD_PATTERN, option.getUserName())) {
+
+			model.addAttribute("message", "Invalid input");
+			return tier2EmployeeController.home( model);
 		}
 		
 		UserDetail userDetail = UserDetailRepository.findByUserId(option.getUserName());
@@ -312,7 +318,7 @@ private RequestService requestService;
 	
 	@RequestMapping(value = "/emp2/requests", method = RequestMethod.GET)
 	public String requests( Model model) {
-		model.addAttribute("requestList", requestService.getRequests(Constants.REQUEST_STATUS.PENDING_APPROVAL.toString()));
+		model.addAttribute("requestList", requestService.getRequests(Constants.REQUEST_STATUS.PENDING_APPROVAL.toString(), Constants.REQUEST_TYPE.NEWACCOUNT.toString()));
 		model.addAttribute("selectedRequests", new Request());
 
 		return "viewrequests";

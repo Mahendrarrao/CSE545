@@ -23,5 +23,7 @@ public interface TransactionService {
 	public void approveTransactions(String[] list);
 
 	void rejectTransactions(String[] transactions);
+
+	public void generateStatement();
 	
 }

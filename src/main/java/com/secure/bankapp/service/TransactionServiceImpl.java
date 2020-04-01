@@ -28,7 +28,7 @@ public class TransactionServiceImpl implements TransactionService {
 	@Override
 	public List<Transaction> getTransactionsByAccountId(Long id) {
 		// TODO Auto-generated method stub
-		return transactionRepository.findByFromAccount(id);
+		return transactionRepository.findByFromAccountOrToAccountAndStatus(id,id, Constants.TRANSACTION_STATUS.COMPLETED.toString());
 	}
 
 	@Override
@@ -94,6 +94,12 @@ public class TransactionServiceImpl implements TransactionService {
 		for(String transaction : transactions) {
 			rejectTransaction(Long.parseLong(transaction));
 		}
+	}
+
+	@Override
+	public void generateStatement() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

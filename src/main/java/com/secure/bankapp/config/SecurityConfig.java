@@ -11,12 +11,16 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.web.servlet.view.ResourceBundleViewResolver;
 
 import com.secure.bankapp.service.LimitLoginAuthenticationProvider;
 import com.secure.bankapp.util.Constants;
 import com.secure.bankapp.util.CustomLogoutHandler;
+import com.secure.bankapp.util.PDFBuilder;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, proxyTargetClass = true)
@@ -35,9 +39,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	    @Override
 	    protected void configure(HttpSecurity http) throws Exception {
-	        http .csrf().disable()
+	        http 
 	                .authorizeRequests()
-	                    .antMatchers("/resources/**", "/register", "/forgotPassword","/emp2/resources/**" , "/generateOtp", "/validateOTP", "/setPassword", "/verifyOTP").permitAll()
+	                    .antMatchers("/resources/**", "/register", "/forgotPassword","/emp2/resources/**" , "/generateOtp", "/validateOTP", "/setPassword","/invalid", "/expired", "/verifyOTP").permitAll()
 	                    .antMatchers("/emp2/**").hasRole("TIER2")
 	                    .antMatchers("/emp1/**").hasRole("TIER1")
 	                    .antMatchers("/user/**").hasRole("CUSTOMER")
@@ -47,12 +51,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	                    .loginPage("/login")
 	                    .permitAll()
 	                    .and()
-	                .logout()
+	                .logout().deleteCookies("JSESSIONID")
 	                .addLogoutHandler(customLogoutHandler())
-	                    .permitAll();
+	                    .permitAll()
+	                    .and()
+	        .sessionManagement()
+	        .sessionFixation().migrateSession()
+	        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+	        .invalidSessionUrl("/invalid")
+	        .maximumSessions(1)
+	        .maxSessionsPreventsLogin(true)
+	        .expiredUrl("/expired");
+	        
+	    
 	                  
 
 	        
+	    }
+	    @Bean
+	    public HttpSessionEventPublisher httpSessionEventPublisher() {
+	        return new HttpSessionEventPublisher();
 	    }
 	    
 	    @Override
@@ -76,4 +94,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	    public CustomLogoutHandler customLogoutHandler() {
 	    	return new CustomLogoutHandler();
 	    }
+	    
+	   
+	    
+	
 }

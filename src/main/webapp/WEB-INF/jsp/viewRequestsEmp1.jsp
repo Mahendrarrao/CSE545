@@ -33,23 +33,28 @@
 	
 	<div align="center">
 <h2>Transactions</h2>
-<form:form method="post" action="/emp1/transactions/action" modelAttribute="selectedTransactions">
+<form:form method="post" action="/emp1/requests/action" modelAttribute="selectedRequests">
 		<table border="2" >
 			<tr>
 			
-				<th> From </th>
-				<th> To </th>
-				<th> Amount </th>
-				<th> Transaction Date </th>
+				<th> UserId </th>
+				<th> Request Type </th>
+				
+				<th> Request Date </th>
+				
+				<th> Appointment Date </th>
 			
 			</tr>
-			<c:forEach var="transaction" items="${transactionList}">
+			<c:forEach var="request" items="${requestList}">
 				<tr>
-					<td>${transaction.fromAccount}</td>
-					<td>${transaction.toAccount}</td>
-					<td>${transaction.transactionValue}</td>
-					<td>${transaction.transactionDate}</td>
-					<td><form:checkbox path="transactions" value="${ transaction.id}" /> </td>
+					<td>${request.userId}</td>
+					<td>${request.requestType}</td>
+			
+					<td>${request.requestDate}</td>
+					
+					<td>${request.adate}</td>
+					<td><form:checkbox path="requests" value="${ request.id}" /> </td>
+				
 				
 				<tr>
 				</c:forEach>

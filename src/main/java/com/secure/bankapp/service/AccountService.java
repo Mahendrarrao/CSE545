@@ -44,6 +44,8 @@ public interface AccountService {
 	void debitFundsByEmp1(Account account);
 
 	public void createAccount(String userId);
+
+	public void setDefaultAccount(Account acc1);
 	
 	
 	

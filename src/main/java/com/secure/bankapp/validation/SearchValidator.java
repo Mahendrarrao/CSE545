@@ -1,5 +1,7 @@
 package com.secure.bankapp.validation;
 
+import java.util.regex.Pattern;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -9,6 +11,7 @@ import com.secure.bankapp.model.RegistrationForm;
 import com.secure.bankapp.model.Search;
 import com.secure.bankapp.model.UserProfile;
 import com.secure.bankapp.service.UserService;
+import com.secure.bankapp.util.Constants;
 
 @Component
 public class SearchValidator implements Validator {
@@ -22,6 +25,7 @@ public class SearchValidator implements Validator {
 	   private static boolean  isBlankString(String string) {
 	        return string == null || string.trim().isEmpty();
 	    }
+	   private Pattern pattern;
 	@Override
 	public void validate(Object target, Errors errors) {
 		// TODO Auto-generated method stub
@@ -34,6 +38,10 @@ public class SearchValidator implements Validator {
 	        	errors.rejectValue("userName", "cannotBeEmpty");
 	        	return;
 	        }
+	        if(!pattern.matches(Constants.PASSWORD_PATTERN, search.getUserName())) {
+	         	errors.rejectValue("userName", "invalid");
+				return ;
+			}
 	        
 	        if (userService.findByUsername(search.getUserName()).getRoleId() != 0 ) {
 	        	

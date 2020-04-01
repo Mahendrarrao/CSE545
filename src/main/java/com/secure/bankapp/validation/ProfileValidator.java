@@ -55,9 +55,13 @@ public class ProfileValidator implements Validator {
 	        	errors.rejectValue("address", "cannotBeEmpty");
 	        }
 	        
-	       
+	        
 	        if(!isBlankString(user.getEmail()) && !pattern.matches(EMAIL_PATTERN,user.getEmail())) {
 	        	errors.rejectValue("email", "validEmail");
+	        }
+	        
+	        if(!isBlankString(user.getEmail()) && !pattern.matches(PASSWORD_PATTERN,user.getAddress())) {
+	        	errors.rejectValue("address", "invalid");
 	        }
 	        
 	        if(!isBlankString(user.getEmail()) && userService.findByEmail(user.getEmail()) != null) {

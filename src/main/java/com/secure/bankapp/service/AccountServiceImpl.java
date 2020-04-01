@@ -88,6 +88,10 @@ public class AccountServiceImpl implements AccountService {
 		// TODO Auto-generated method stub
 		
 		String userId = userService.findByEmail(email).getUserId();
+		if (userId == null) {
+			return null;
+		}
+		
 		return accountRepository.findByUserIdAndDefaultAccount(userId, true);
 		
 	}
@@ -288,6 +292,20 @@ public class AccountServiceImpl implements AccountService {
 		}
 	
 	
+	}
+
+	@Override
+	public void setDefaultAccount(Account acc1) {
+		// TODO Auto-generated method stub
+		acc1.setDefaultAccount(true);
+		for(Account a: getAccountsByUserId(acc1.getUserId())) {
+			if( acc1.getAccountId() != a.getAccountId()) {
+				a.setDefaultAccount(false);
+				saveAccount(a);
+			}
+		}
+		
+		saveAccount(acc1);
 	}
 
 	

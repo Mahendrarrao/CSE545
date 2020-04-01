@@ -17,6 +17,15 @@ public class Request {
 	private Date requestDate;
 	private String requestType;
 	private String status;
+	private String adate;
+	
+	@Column(name="adate")
+	public String getAdate() {
+		return adate;
+	}
+	public void setAdate(String adate) {
+		this.adate = adate;
+	}
 	@Column(name="status")
 	public String getStatus() {
 		return status;

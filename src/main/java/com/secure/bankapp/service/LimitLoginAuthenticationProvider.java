@@ -13,6 +13,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
+import com.secure.bankapp.exception.VerificationNeededException;
 import com.secure.bankapp.model.SystemLog;
 import com.secure.bankapp.model.UserAttempts;
 import com.secure.bankapp.model.UserCred;
@@ -47,7 +48,7 @@ public class LimitLoginAuthenticationProvider extends DaoAuthenticationProvider 
 	if (user != null) {
 		  if (user.getStatus().equals(Constants.VERIFY_NEEDED)) {
 			  String error = Constants.VERIFY_NEEDED + "," + user.getUserId(); 
-			  throw new LockedException(error);
+			  throw new VerificationNeededException(error);
 		  }
 	}
 		Authentication auth = super.authenticate(authentication);
@@ -93,6 +94,10 @@ public class LimitLoginAuthenticationProvider extends DaoAuthenticationProvider 
 		}
 			
 	  throw new LockedException(error);
+	} catch (VerificationNeededException e) {
+		// TODO Auto-generated catch block
+		String error = e.toString();
+		throw new LockedException(error);
 	}
 
 	}

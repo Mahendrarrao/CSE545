@@ -24,13 +24,16 @@ public class UserValidator implements Validator {
     private Pattern pattern;
 	private Matcher matcher;
 	
-	private static final String EMAIL_PATTERN = 
+	public static final String EMAIL_PATTERN = 
 			"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 	
-	private static final String PHONE_PATTERN =  "^\\(?([0-9]{3})\\)?[-.\\s]?([0-9]{3})[-.\\s]?([0-9]{4})$";
+	public static final String PHONE_PATTERN =  "^\\(?([0-9]{3})\\)?[-.\\s]?([0-9]{3})[-.\\s]?([0-9]{4})$";
 	
 	private static final String	PASSWORD_PATTERN = "^[a-zA-Z0-9]+$";
+	
+	
+	
     @Override
     public boolean supports(Class<?> aClass) {
         return RegistrationForm.class.equals(aClass);
@@ -83,6 +86,27 @@ public class UserValidator implements Validator {
         }
         if (!isBlankString(user.getUserId()) && userService.findByUsername(user.getUserId()) != null) {
             errors.rejectValue("userId", "userExists");
+        }
+        
+        if (!isBlankString(user.getUserId()) && userService.findByUsername(user.getUserId()) != null) {
+            errors.rejectValue("userId", "userExists");
+        }
+        
+        if (!isBlankString(user.getUserId()) && !pattern.matches(PASSWORD_PATTERN, user.getUserId())) {
+            errors.rejectValue("userId", "invalid");
+        }
+        
+        if (!isBlankString(user.getAddress()) && !pattern.matches(PASSWORD_PATTERN, user.getAddress())) {
+            errors.rejectValue("address", "invalid");
+        }
+        if (!isBlankString(user.getCity()) && !pattern.matches(PASSWORD_PATTERN, user.getCity())) {
+            errors.rejectValue("city", "invalid");
+        }
+        if (!isBlankString(user.getFirstName()) && !pattern.matches(PASSWORD_PATTERN, user.getFirstName())) {
+            errors.rejectValue("firstName", "invalid");
+        }
+        if (!isBlankString(user.getLastName()) && !pattern.matches(PASSWORD_PATTERN, user.getLastName())) {
+            errors.rejectValue("lastName", "invalid");
         }
 
        

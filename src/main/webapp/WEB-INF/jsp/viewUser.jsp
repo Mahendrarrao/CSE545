@@ -18,10 +18,16 @@
 <body>
 <div class="topnav">
  <ol id="toc">
-      <a href="profile"><span>Profile</span></a></li>
+      <a href="profile"><span>Profile</span></a>
    
-      <a href="<c:url value='/logout'/>"><span>Logout</span></a>  
+       <a href="#" onclick="document.getElementById('logout-form').submit();"><span>Logout</span></a>  
 	</ol>
+	
+
+
+<form id="logout-form" action="<c:url value="/logout"/>" method="post">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+</form>
 </div>
 <div class="content">
   <center><h1>Welcome to Sun Financial</h1></center>
@@ -37,23 +43,23 @@
         </tr>
          <tr>
           <td>Full Name: </td>
-            <td> <form:input path="fullName"  />
+            <td> <form:input path="fullName" disabled="true" />
             <form:errors path = "fullName"/></td>
         </tr>
         
         <tr>
           <td>Phone: </td>
-            <td> <form:input path="phone"  />
+            <td> <form:input path="phone" disabled="true"  />
             <form:errors path = "phone"/></td>
         </tr>
           <tr>
             <td>Address:</td>
-              <td>  <form:input path="address"  />
+              <td>  <form:input path="address" disabled="true"  />
               <form:errors path = "address"/></td>
        
           <tr>
             <td>  Email:</td>
-              <td><form:input path="email" />
+              <td><form:input path="email" disabled="true" />
               <form:errors path = "email"/></td>
         </tr>
         	<tr>

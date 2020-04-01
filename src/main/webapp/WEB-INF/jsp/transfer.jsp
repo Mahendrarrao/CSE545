@@ -18,8 +18,9 @@
 <body>
 <div class="topnav">
  <ol id="toc">
+       <a href="home"><span>Home</span></a>
       <a href="profile"><span>Profile</span></a>
-   
+
        <a href="#" onclick="document.getElementById('logout-form').submit();"><span>Logout</span></a>  
 	</ol>
 	
@@ -34,77 +35,72 @@
   <div id="login-box-ext-usr">
 
    <div align="center">
-      <h2>Modify User Account</h2>
+      <h2>Transfer</h2>
 
-       <form:form name="frm" action="save" method="post" modelAttribute="user">
+       <form:form name="frm" action="transfer" method="post" modelAttribute="transfer">
         <table>
         <tr>
         <td colspan="2"><label color="Red"><font color="red">${statusmsg}</font></label><td>
         </tr>
-         <tr>
-          <td>Full Name: </td>
-            <td> <form:input path="fullName"  />
-            <form:errors path = "fullName"/></td>
-        </tr>
-        
-        <tr>
-          <td>Phone: </td>
-            <td> <form:input path="phone"  />
-            <form:errors path = "phone"/></td>
-        </tr>
-          <tr>
-            <td>Address:</td>
-              <td>  <form:input path="address"  />
-              <form:errors path = "address"/></td>
-       
-          <tr>
-            <td>  Email:</td>
-              <td><form:input path="email" />
-              <form:errors path = "email"/></td>
-        </tr>
-        	<tr>
-			<td>
- <form:radiobutton path="gender" value="male"/>  Male
-			</td>
-			<td>
-		 <form:radiobutton path="gender" value="female"/>  Female
-			</td>
-		
-        <form:hidden path="userId" />
-        </tr>
-         
-        </table>
-              
-      <br/>    
-        <input id="makechanges" type="submit" value="Make Changes" />
-      </form:form>   
-      <div >
-      <form:form modelAttribute="account" action="delete" >
-      <table>
-      <tr>
       
-        <td>Select Account to Delete: </td>
+      <tr>
+        <td>Select Account : </td>
             <td> 
             <form:select path="accountId">
                       <form:option value="" label="Select Account" />
                       <form:options items="${accountsList}" />
                        </form:select>
-                       <form:errors path = "accountId"/></td>
+                       
             </td>
       
       </tr>
-      <td>
-      <form:hidden path="userId" />
-      <input id="makechanges" type="submit" value="Delete" />
-      </td>
-      <tr>
-      <td>
+         <tr>
+        <td>Enter Account No/ Email/ Phone to Transfer: </td>
+            <td> 
+        
+                 <form:input path="toAccount" type="text"/>      
+            </td>
       
-      </td>
       </tr>
-      </table>
-      </form:form>
-      </div> 
+       <tr>
+        <td>Enter Amount to transfer </td>
+            <td> 
+        
+                 <form:input path="amount" type="number"/>      
+            </td>
+      
+      </tr>
+       
+           
+         <tr>
+          <td><input type="submit" name="submit" value="Transfer by Account"/> </td>
+               <td><input type="submit" name="submit" value="Transfer by Email"/> </td>
+                 <td><input type="submit" name="submit" value="Transfer by Phone"/> </td>
+           
+        </tr>
+        </table>
+              
+   
+      </form:form>   
+      <div>
+      <c:if test="${info != null}">
+          <form:form  modelAttribute="info">
+          <table>
+          <tr>
+          <td>
+         Balance: <form:input path="balance" type="number" disabled="true"/>
+          </td>
+          </tr>
+           <tr>
+          <td>
+         Account Status: <form:input path="accountStatus" type="text" disabled="true"/>
+          </td>
+          </tr>
+          </table>
+           </form:form>
+           </c:if>
+      </div>
+      
   </div>
   </div>
 </div>

@@ -19,8 +19,14 @@
 <ol id="toc">
       <a href="profile"><span>Profile</span></a></li>
    
-      <a href="<c:url value='/logout'/>"><span>Logout</span></a>  
+      <a href="#" onclick="document.getElementById('logout-form').submit();"><span>Logout</span></a>  
 	</ol>
+	
+
+
+<form id="logout-form" action="<c:url value="/logout"/>" method="post">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+</form>
 </div>
 <div class="content">
   <center><h1>Welcome to Sun Financial</h1></center>
@@ -32,7 +38,7 @@
 		<table>	
 		<tr>
 			<td>
-			<span> ${message}</span>
+			<span> ${statusmsg}</span>
 			</td>
 			</tr>
 		<tr>
@@ -41,19 +47,10 @@
 
 		 </td>
 		
-		<tr>
-		<tr>
-		<td>
-     <a href="<c:url value='byEmail'/>"><span>Transfer Funds by Email</span></a>  
+		</tr>
 
-		 </td>
 		
-		<tr>
-		<tr>
-		<td>
-     <a href="<c:url value='byPhone'/>"><span>Transfer Funds by Phone</span></a>  
-
-		 </td>
+	
 		
 		<tr>
 			<td>
@@ -63,7 +60,13 @@
 		
 		<tr>
 			<td>
-		      <a href="<c:url value='accounts'/>"><span>View Transactions</span></a>  	
+		      <a href="<c:url value='add'/>"><span>Add account</span></a>  	
+			</td>
+		</tr>
+		
+			<tr>
+			<td>
+		      <a href="<c:url value='help'/>"><span>Schedule Appointment</span></a>  	
 			</td>
 		</tr>
 		

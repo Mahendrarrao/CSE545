@@ -52,6 +52,13 @@ public class LoginController {
 
         return "registration2";
     }
+    
+    @RequestMapping(value = {"/invalid", "/expired"}, method = RequestMethod.GET)
+    public String invalid(Model model) {
+       
+
+        return "invalid";
+    }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String registration(@Valid @ModelAttribute("userForm") RegistrationForm userForm, BindingResult bindingResult, Model model) {
@@ -92,8 +99,8 @@ form.setUserId(userForm.getUserId());
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model, String error, String logout,HttpServletRequest request) {
-
     	if (error != null) {
+
     		if (getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION").contains(Constants.VERIFY_NEEDED)) {
     			
     			ForgotPasswordForm form = new ForgotPasswordForm();
@@ -129,7 +136,7 @@ form.setUserId(userForm.getUserId());
   		}else if(exception instanceof LockedException) {
   			error = exception.getMessage();
   		}else{
-  			error = "Invalid username and password!";
+  			error = exception.getMessage();
   		}
   		
   		return error;

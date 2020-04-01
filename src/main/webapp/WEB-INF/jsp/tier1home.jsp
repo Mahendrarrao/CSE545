@@ -17,10 +17,16 @@
 <body>
 <div class="topnav">
 <ol id="toc">
-      <a href="profile"><span>Profile</span></a></li>
+      <a href="profile"><span>Profile</span></a>
    
-      <a href="<c:url value='/logout'/>"><span>Logout</span></a>  
+        <a href="#" onclick="document.getElementById('logout-form').submit();"><span>Logout</span></a>  
 	</ol>
+	
+
+
+<form id="logout-form" action="<c:url value="/logout"/>" method="post">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+</form>
 </div>
 <div class="content">
   <center><h1>Welcome to Sun Financial</h1></center>
@@ -53,7 +59,11 @@
 		      <a href="<c:url value='transactions'/>"><span>View Transactions</span></a>  	
 			</td>
 		</tr>
-		
+		<tr>
+			<td>
+		      <a href="<c:url value='requests'/>"><span>View Requests</span></a>  	
+			</td>
+		</tr>
 
 		</table>
 		

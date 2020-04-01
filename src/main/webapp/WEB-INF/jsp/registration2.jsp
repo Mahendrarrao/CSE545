@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Registration Step 2</title>
+<title>Registration</title>
 <link href="resources/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
