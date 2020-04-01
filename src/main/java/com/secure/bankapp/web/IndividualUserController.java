@@ -29,6 +29,7 @@ import com.secure.bankapp.model.Request;
 import com.secure.bankapp.model.Transaction;
 import com.secure.bankapp.model.TransferForm;
 import com.secure.bankapp.model.UserDetail;
+import com.secure.bankapp.model.UserProfile;
 import com.secure.bankapp.repository.RequestRepository;
 import com.secure.bankapp.repository.UserDetailRepository;
 import com.secure.bankapp.service.AccountService;
@@ -54,6 +55,15 @@ public class IndividualUserController {
 	private RequestRepository requestRepository;
 	
 	private Pattern pattern;
+	
+	@RequestMapping(value = "/user/profile", method = RequestMethod.GET)
+	public String profile(Model model) {
+		
+		UserDetail user = UserDetailRepository.findByUserId(SecurityContextHolder.getContext().getAuthentication().getName());
+		UserProfile profile = new UserProfile(user.getEmail(), user.getPhone(), user.getAddress());
+		model.addAttribute("user", profile);
+		return "userprofile";
+	}
 	
 	@RequestMapping(value = "/user/home", method = RequestMethod.GET)
 	public String home(Model model) {
