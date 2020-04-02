@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -17,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,6 +31,7 @@ import com.secure.bankapp.model.Request;
 import com.secure.bankapp.model.Transaction;
 import com.secure.bankapp.model.TransferForm;
 import com.secure.bankapp.model.UserDetail;
+import com.secure.bankapp.model.UserProfile;
 import com.secure.bankapp.repository.RequestRepository;
 import com.secure.bankapp.repository.UserDetailRepository;
 import com.secure.bankapp.service.AccountService;
@@ -36,6 +39,7 @@ import com.secure.bankapp.service.EmployeeService;
 import com.secure.bankapp.service.TransactionService;
 import com.secure.bankapp.service.UserService;
 import com.secure.bankapp.util.Constants;
+import com.secure.bankapp.validation.ProfileValidator;
 import com.secure.bankapp.validation.UserValidator;
 
 @Controller
@@ -141,7 +145,7 @@ model.addAttribute("appointment", new Appointment());
 		if(submit.equals("Make as  Default Account")) {
 	
 	accountService.setDefaultAccount(acc1);
-	model.addAttribute("statusmsg", "Account set successfully");
+	modelAndView.addObject("statusmsg", "Account set successfully");
 	modelAndView.addObject("accountsList", getAccountList(authentication.getName()));
 	return modelAndView;
 		}else if (submit.equals("View Account")) {
@@ -150,6 +154,32 @@ model.addAttribute("appointment", new Appointment());
 			info.setBalance(acc1.getBalance());
 			modelAndView.addObject("info", info);
 			modelAndView.addObject("accountsList", getAccountList(authentication.getName()));
+			//UserDetail user = UserDetailRepository.findByUserId(SecurityContextHolder.getContext().getAuthentication().getName());
+ 			List<Transaction> transactions = transactionService.getTransactionsByAccountId(account.getAccountId());
+ 			Collections.sort(transactions);
+ 			List<Transaction> list = new ArrayList<>();
+ 			for (Transaction transaction : transactions) {			
+ 				Transaction t = new Transaction();
+ 				t.setId(transaction.getId());
+ 				t.setTransactionDate(transaction.getTransactionDate());
+ 			
+ 				if (transaction.getFromAccount().compareTo(account.getAccountId()) ==0) {
+ 					t.setTo("xxxxxx" +String.valueOf( transaction.getToAccount()).substring(6));
+ 				   t.setTransactionType(String.valueOf(Constants.TRANSACTION_TYPE.DEBIT.toString()));
+ 				   t.setVal("-" + transaction.getTransactionValue());
+ 					
+ 				} else {
+ 					t.setTo("xxxxxx" +String.valueOf( transaction.getFromAccount()).substring(6));
+  				   t.setTransactionType(String.valueOf(Constants.TRANSACTION_TYPE.CREDIT.toString()));
+  				   t.setVal("+" + transaction.getTransactionValue());
+ 			
+ 				}
+ 				t.setStatus(transaction.getStatus());
+ 				list.add(t);
+ 			
+
+ 			}
+ 			modelAndView.addObject("transactions", list);
 			
 			return modelAndView;
 		} else if (submit.equals("Generate Statement")) {
@@ -157,7 +187,7 @@ model.addAttribute("appointment", new Appointment());
 			return postDownloadStatement(model,acc1);
 		
 			
-		}
+		} 
 
 	
 		modelAndView.addObject("statusmsg", "Account set successfully");
@@ -272,7 +302,7 @@ model.addAttribute("appointment", new Appointment());
 			UserDetail user = UserDetailRepository.findByUserId(SecurityContextHolder.getContext().getAuthentication().getName());
 		
 
-			List<Transaction> transactions = transactionService.getTransactionsByAccountId(account.getAccountId());
+			List<Transaction> transactions = transactionService.getTransactionsByAccountId(account.getAccountId(), Constants.TRANSACTION_STATUS.COMPLETED.toString());
 			
 			model.addAttribute("user", user);
 			model.addAttribute("title", "Account Statements");
@@ -283,6 +313,32 @@ model.addAttribute("appointment", new Appointment());
 
 			return new ModelAndView("pdfView", "model", model);
 		}
+		
+		@RequestMapping(value = "/user/profile", method = RequestMethod.GET)
+	 	public String profile(Model model) {
+
+	 		UserDetail user = UserDetailRepository.findByUserId(SecurityContextHolder.getContext().getAuthentication().getName());
+	 		UserProfile profile = new UserProfile(user.getEmail(), user.getPhone(), user.getAddress(), user.getFullName());
+	 		model.addAttribute("user", profile);
+	 		return "userprofile";
+	 	}
+		@Autowired
+		private ProfileValidator profileValidator;
+		@RequestMapping(value = "/user/profile", method = RequestMethod.POST)
+	 	public String profileSAVE(@ModelAttribute("user") UserProfile profile,BindingResult bindingResult,Model model) {
+
+			  profileValidator.validate(profile, bindingResult);
+
+		        if (bindingResult.hasErrors()) {
+		        	model.addAttribute("user", profile);	
+		            return "userprofile";
+		        }
+			UserDetail user = UserDetailRepository.findByUserId(SecurityContextHolder.getContext().getAuthentication().getName());
+	 		user.setAddress(profile.getAddress());
+	 		user.setPhone(profile.getPhone());
+	 		UserDetailRepository.save(user);
+			return "userprofile";
+	 	}
 	
 	
 }

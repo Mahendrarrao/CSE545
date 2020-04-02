@@ -26,9 +26,13 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public List<Transaction> getTransactionsByAccountId(Long id) {
+	public List<Transaction> getTransactionsByAccountId(Long id, String status) {
 		// TODO Auto-generated method stub
-		return transactionRepository.findByFromAccountOrToAccountAndStatus(id,id, Constants.TRANSACTION_STATUS.COMPLETED.toString());
+		List<Transaction> fromList =  transactionRepository.findByFromAccountAndStatus(id, status);
+		List<Transaction> toList =  transactionRepository.findByToAccountAndStatus(id, status);
+		toList.addAll(fromList);
+	
+		return toList;
 	}
 
 	@Override
@@ -100,6 +104,16 @@ public class TransactionServiceImpl implements TransactionService {
 	public void generateStatement() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<Transaction> getTransactionsByAccountId(Long accountId) {
+		// TODO Auto-generated method stub
+		List<Transaction> fromList =  transactionRepository.findByFromAccount(accountId);
+		List<Transaction> toList =  transactionRepository.findByToAccount(accountId);
+		toList.addAll(fromList);
+	
+		return toList;
 	}
 
 }

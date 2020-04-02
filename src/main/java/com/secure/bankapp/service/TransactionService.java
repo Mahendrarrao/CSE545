@@ -8,7 +8,7 @@ public interface TransactionService {
 
 	public Transaction getTransactionByid(Long id);
 	
-	public List<Transaction> getTransactionsByAccountId(Long id);
+	
 	
 	public List<Transaction> getCriticalTransactions();
 	
@@ -25,5 +25,11 @@ public interface TransactionService {
 	void rejectTransactions(String[] transactions);
 
 	public void generateStatement();
+
+	List<Transaction> getTransactionsByAccountId(Long id, String status);
+
+
+
+	public List<Transaction> getTransactionsByAccountId(Long accountId);
 	
 }

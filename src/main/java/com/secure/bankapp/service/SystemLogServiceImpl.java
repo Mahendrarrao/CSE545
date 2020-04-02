@@ -33,5 +33,8 @@ public class SystemLogServiceImpl implements SystemLogService {
 		// TODO Auto-generated method stub
 		return systemLogRepository.findByUserId(userId);
 	}
-
+	@Override
+    public List<SystemLog> getAllLogs() {
+        return systemLogRepository.findAll();
+    }
 }

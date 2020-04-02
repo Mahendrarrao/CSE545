@@ -5,7 +5,15 @@ import java.util.Date;
 public class UserProfile {
 	
 
+	private String fullName;
 	
+	public String getFullName() {
+		return fullName;
+	}
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
 	private String  email;
 	
 	private String  phone;
@@ -16,8 +24,9 @@ public class UserProfile {
 	public UserProfile() {
 		
 	}
-	public UserProfile(String email, String phone, String address) {
+	public UserProfile(String email, String phone, String address, String fullName) {
 		super();
+		this.fullName = fullName;
 		this.email = email;
 		this.phone = phone;
 		this.address = address;

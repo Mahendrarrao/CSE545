@@ -28,6 +28,8 @@ public class ProfileValidator implements Validator {
 		private static final String PHONE_PATTERN =  "^\\(?([0-9]{3})\\)?[-.\\s]?([0-9]{3})[-.\\s]?([0-9]{4})$";
 		
 		private static final String	PASSWORD_PATTERN = "^[a-zA-Z0-9]+$";
+		private static final String	ADDRESS_PATTERN = "^[a-zA-Z0-9,]+$";
+		
 	    @Override
 	    public boolean supports(Class<?> aClass) {
 	        return UserProfile.class.equals(aClass);
@@ -40,12 +42,12 @@ public class ProfileValidator implements Validator {
 	    @Override
 	    public void validate(Object o, Errors errors) {
 	        UserProfile user = (UserProfile) o;
-
+	        if(isBlankString(user.getFullName())) {
+	        	errors.rejectValue("fullName", "cannotBeEmpty");
+	        }
 	        
 	    
-	        if(isBlankString(user.getEmail())) {
-	        	errors.rejectValue("email", "cannotBeEmpty");
-	        }
+	    
 	   
 	        
 	        if(isBlankString(user.getPhone())) {
@@ -60,15 +62,14 @@ public class ProfileValidator implements Validator {
 	        	errors.rejectValue("email", "validEmail");
 	        }
 	        
-	        if(!isBlankString(user.getEmail()) && !pattern.matches(PASSWORD_PATTERN,user.getAddress())) {
+	        if(!isBlankString(user.getAddress()) && user.getAddress().contains("/")) {
 	        	errors.rejectValue("address", "invalid");
 	        }
-	        
-	        if(!isBlankString(user.getEmail()) && userService.findByEmail(user.getEmail()) != null) {
-	        	if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(userService.findByEmail(user.getEmail()).getUserId()))
-	        	errors.rejectValue("email", "emailExists");
+	        if(!isBlankString(user.getFullName()) && !pattern.matches(PASSWORD_PATTERN,user.getFullName())) {
+	        	errors.rejectValue("fullName", "invalid");
 	        }
-	               
+	        
+	       
 	       
 	        if(!isBlankString(user.getPhone()) && !pattern.matches(PHONE_PATTERN,user.getPhone())) {
 	        	errors.rejectValue("phone", "validPhone");

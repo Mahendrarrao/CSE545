@@ -40,19 +40,19 @@
         <tr>
         <td colspan="2"><label color="Red"><font color="red">${statusmsg}</font></label><td>
         </tr>
-        <tr>
-          <td>Full Name: </td>
-            <td> <form:input path="fullName" readonly="true"  /> </td>
-        
+         <tr>
+          <td>Full name: </td>
+            <td> <form:input path="fullName"  readonly="true"/>
+       
         </tr>
         <tr>
           <td>Phone: </td>
-            <td> <form:input path="phone"  />
+            <td> <form:input path="phone" />
             <form:errors path = "phone"/></td>
         </tr>
           <tr>
             <td>Address:</td>
-              <td>  <form:input path="address"  />
+              <td>  <form:input path="address"   />
               <form:errors path = "address"/></td>
        
           <tr>

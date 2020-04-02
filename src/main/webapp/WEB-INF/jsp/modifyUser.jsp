@@ -20,7 +20,7 @@
  <ol id="toc">
       <a href="profile"><span>Profile</span></a>
    
-        <a href="#" onclick="document.getElementById('logout-form').submit();"><span>Logout</span></a>  
+       <a href="#" onclick="document.getElementById('logout-form').submit();"><span>Logout</span></a>  
 	</ol>
 	
 
@@ -34,17 +34,19 @@
   <div id="login-box-ext-usr">
 
    <div align="center">
-      <h2>Edit Profile</h2>
-       <form:form name="frm" action="profile" method="post" modelAttribute="user">
+      <h2>Modify User Account</h2>
+
+       <form:form name="frm" action="save" method="post" modelAttribute="user">
         <table>
         <tr>
         <td colspan="2"><label color="Red"><font color="red">${statusmsg}</font></label><td>
         </tr>
-        <tr>
+         <tr>
           <td>Full Name: </td>
-            <td> <form:input path="fullName" readonly="true"  /> </td>
-        
+            <td> <form:input path="fullName"  />
+            <form:errors path = "fullName"/></td>
         </tr>
+        
         <tr>
           <td>Phone: </td>
             <td> <form:input path="phone"  />
@@ -57,17 +59,26 @@
        
           <tr>
             <td>  Email:</td>
-              <td><form:input path="email" readonly="true" />
+              <td><form:input path="email" />
               <form:errors path = "email"/></td>
         </tr>
-        
-        
+        	<tr>
+			<td>
+ <form:radiobutton path="gender" value="male"/>  Male
+			</td>
+			<td>
+		 <form:radiobutton path="gender" value="female"/>  Female
+			</td>
+		
+        <form:hidden path="userId" />
+        </tr>
          
         </table>
               
       <br/>    
         <input id="makechanges" type="submit" value="Make Changes" />
-      </form:form>    
+      </form:form>   
+     
   </div>
   </div>
 </div>

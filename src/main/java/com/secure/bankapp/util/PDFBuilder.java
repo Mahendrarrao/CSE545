@@ -78,7 +78,7 @@ public class PDFBuilder extends AbstractITextPdfView {
 		
 			table.addCell(String.valueOf(transaction.getId()));
 			table.addCell(transaction.getTransactionDate().toString());
-			if (transaction.getFromAccount() == account.getAccountId()) {
+			if (transaction.getFromAccount().compareTo(account.getAccountId()) ==0) {
 				table.addCell("xxxxxx" +String.valueOf( transaction.getToAccount()).substring(6));
 				table.addCell(String.valueOf(Constants.TRANSACTION_TYPE.DEBIT.toString()));	
 				table.addCell("-" + transaction.getTransactionValue());

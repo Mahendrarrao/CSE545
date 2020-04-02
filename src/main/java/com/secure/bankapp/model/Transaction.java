@@ -14,7 +14,7 @@ import org.springframework.data.annotation.Transient;
 
 @Entity
 @Table(name = "transactions")
-public class Transaction {
+public class Transaction implements Comparable<Transaction> {
 
 	private Long id;
 	private Double transactionValue;
@@ -26,6 +26,23 @@ public class Transaction {
 	private String userId;
 	private Date transactionDate;
 	private Boolean isCritical;
+	private String to;
+	private String val;
+	
+	@javax.persistence.Transient
+	public String getVal() {
+		return val;
+	}
+	public void setVal(String val) {
+		this.val = val;
+	}
+	@javax.persistence.Transient
+	public String getTo() {
+		return to;
+	}
+	public void setTo(String to) {
+		this.to = to;
+	}
 
 	private String[] transactions;
 	
@@ -115,5 +132,12 @@ public class Transaction {
 		this.transactionDate = transactionDate;
 	}
 	
+	@Override
+	public int compareTo(Transaction o) {
+		if (getTransactionDate() == null || o.getTransactionDate() == null) {
+			return 0;
+	    }
+		return getTransactionDate().compareTo(o.getTransactionDate());
+	}
 	
 }

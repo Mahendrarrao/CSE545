@@ -230,7 +230,7 @@ public class Tier1EmployeeController {
 	public String profile(Model model) {
 		
 		UserDetail user = UserDetailRepository.findByUserId(SecurityContextHolder.getContext().getAuthentication().getName());
-		UserProfile profile = new UserProfile(user.getEmail(), user.getPhone(), user.getAddress());
+		UserProfile profile = new UserProfile(user.getEmail(), user.getPhone(), user.getAddress(),user.getFullName());
 		model.addAttribute("user", profile);
 		return "emp2profile";
 	}
@@ -240,7 +240,7 @@ public class Tier1EmployeeController {
 		  profileValidator.validate(profile, bindingResult);
 
 	        if (bindingResult.hasErrors()) {
-	            return "emp1profile";
+	            return "emp2profile";
 	        }
 		UserDetail user = UserDetailRepository.findByUserId(SecurityContextHolder.getContext().getAuthentication().getName());
 		user.setAddress(profile.getAddress());

@@ -132,11 +132,11 @@ form.setUserId(userForm.getUserId());
   		
   		String error = "";
   		if (exception instanceof BadCredentialsException) {
-  			error = "Invalid username and password!";
+  			error = "Invalid username or password!";
   		}else if(exception instanceof LockedException) {
   			error = exception.getMessage();
   		}else{
-  			error = exception.getMessage();
+  			error = "Invalid username or password";
   		}
   		
   		return error;
@@ -160,7 +160,7 @@ form.setUserId(userForm.getUserId());
     		return "redirect:emp2/home";
     	
     	if(role.equals(Constants.ROLE_ADMIN))
-    		return "welcome";
+    		return "redirect:admin/home";
     	}
     	
         return "login";

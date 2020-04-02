@@ -3,6 +3,7 @@ package com.secure.bankapp.web;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -158,7 +159,7 @@ private RequestService requestService;
 	public String profile(Model model) {
 		
 		UserDetail user = UserDetailRepository.findByUserId(SecurityContextHolder.getContext().getAuthentication().getName());
-		UserProfile profile = new UserProfile(user.getEmail(), user.getPhone(), user.getAddress());
+		UserProfile profile = new UserProfile(user.getEmail(), user.getPhone(), user.getAddress(), user.getFullName());
 		model.addAttribute("user", profile);
 		return "emp2profile";
 	}
@@ -310,7 +311,9 @@ private RequestService requestService;
 	//PLEASE COMMENT FUNCTION//
 	@RequestMapping(value = "/emp2/transactions", method = RequestMethod.GET)
 	public String getTransactionsEmp2( Model model) {
-		model.addAttribute("transactionList", transactionService.getCriticalTransactions());
+		List<Transaction> transactions = transactionService.getCriticalTransactions();
+ 		Collections.sort(transactions);
+		model.addAttribute("transactionList", transactions);
 		model.addAttribute("selectedTransactions", new Transaction());
 
 		return "criticaltransactions";
@@ -318,6 +321,7 @@ private RequestService requestService;
 	
 	@RequestMapping(value = "/emp2/requests", method = RequestMethod.GET)
 	public String requests( Model model) {
+	
 		model.addAttribute("requestList", requestService.getRequests(Constants.REQUEST_STATUS.PENDING_APPROVAL.toString(), Constants.REQUEST_TYPE.NEWACCOUNT.toString()));
 		model.addAttribute("selectedRequests", new Request());
 

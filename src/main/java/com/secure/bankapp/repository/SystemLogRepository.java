@@ -10,5 +10,7 @@ import com.secure.bankapp.model.UserAttempts;
 public interface SystemLogRepository extends JpaRepository<SystemLog, Long>{
 	
 	List<SystemLog> findByUserId(String userId); 
+	
+	List<SystemLog> findAll();
 
 }

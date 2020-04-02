@@ -28,9 +28,7 @@
 </head>
 <body onload='document.loginForm.username.focus();'>
 	<div class="topnav">
-		<a href="#">Link</a>
-		<a href="#">Link</a>
-		<a href="#">Link</a>
+	
 	</div>
 	<div class="content">
 		<center><h1>Welcome to Sun Financial</h1></center>

@@ -9,5 +9,7 @@ public interface SystemLogService {
 	void recordLog(SystemLog log);
 	void deleteLog(SystemLog log);
 	List<SystemLog> getLogByUserId(String userId);
+	
+	List<SystemLog> getAllLogs();
 
 }

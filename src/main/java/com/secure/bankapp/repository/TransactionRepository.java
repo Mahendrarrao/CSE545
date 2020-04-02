@@ -24,7 +24,17 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
 
 	
-	List<Transaction> findByFromAccountOrToAccountAndStatus(Long id, Long id2, String status);
+	List<Transaction> findByStatusAndFromAccountOrToAccount(String status,Long id, Long id2);
+
+
+
+	
+
+	List<Transaction> findByToAccount(Long accountId);
+	
+	List<Transaction> findByToAccountAndStatus(Long accountId, String status);
+	
+	List<Transaction> findByFromAccountAndStatus(Long accountId, String status);
 	
 	
 }

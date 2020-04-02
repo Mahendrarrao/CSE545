@@ -9,7 +9,7 @@ public class RegistrationForm {
 	private String userId;
 	private String password;
 	private String confirmPassword;
-	private String customerType="0";
+	private String customerType="2";
 	private String phone;
 	private String address;
 	private String city;
