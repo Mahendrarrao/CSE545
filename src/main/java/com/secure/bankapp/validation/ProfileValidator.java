@@ -1,5 +1,6 @@
 package com.secure.bankapp.validation;
 
+import java.time.LocalDate;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,9 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.secure.bankapp.model.RegistrationForm;
+import com.secure.bankapp.model.SystemLog;
 import com.secure.bankapp.model.UserProfile;
+import com.secure.bankapp.service.SystemLogService;
 import com.secure.bankapp.service.UserService;
 
 import ch.qos.logback.core.boolex.Matcher;
@@ -20,6 +23,8 @@ public class ProfileValidator implements Validator {
 	    private UserService userService;
 	 private Pattern pattern;
 		private Matcher matcher;
+		 @Autowired
+			private SystemLogService logService;
 		
 		private static final String EMAIL_PATTERN = 
 				"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
@@ -64,9 +69,13 @@ public class ProfileValidator implements Validator {
 	        
 	        if(!isBlankString(user.getAddress()) && user.getAddress().contains("/")) {
 	        	errors.rejectValue("address", "invalid");
+	        	SystemLog log = new SystemLog(SecurityContextHolder.getContext().getAuthentication().getName(), "Malicious input entered", java.sql.Date.valueOf(LocalDate.now()));
+				logService.recordLog(log);
 	        }
 	        if(!isBlankString(user.getFullName()) && !pattern.matches(PASSWORD_PATTERN,user.getFullName())) {
 	        	errors.rejectValue("fullName", "invalid");
+	        	SystemLog log = new SystemLog(SecurityContextHolder.getContext().getAuthentication().getName(), "Malicious input entered", java.sql.Date.valueOf(LocalDate.now()));
+				logService.recordLog(log);
 	        }
 	        
 	       

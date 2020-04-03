@@ -1,15 +1,19 @@
 package com.secure.bankapp.validation;
 
+import java.time.LocalDate;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.secure.bankapp.model.RegistrationForm;
+import com.secure.bankapp.model.SystemLog;
 import com.secure.bankapp.model.UserCred;
+import com.secure.bankapp.service.SystemLogService;
 import com.secure.bankapp.service.UserService;
 
 import ch.qos.logback.core.boolex.Matcher;
@@ -31,6 +35,9 @@ public class UserValidator implements Validator {
 	public static final String PHONE_PATTERN =  "^\\(?([0-9]{3})\\)?[-.\\s]?([0-9]{3})[-.\\s]?([0-9]{4})$";
 	
 	private static final String	PASSWORD_PATTERN = "^[a-zA-Z0-9]+$";
+	
+	@Autowired
+	private SystemLogService logService;
 	
 	
 	
@@ -85,7 +92,10 @@ public class UserValidator implements Validator {
             errors.rejectValue("userId", "userIdLength");
         }
         if (!isBlankString(user.getUserId()) && userService.findByUsername(user.getUserId()) != null) {
-            errors.rejectValue("userId", "userExists");
+           
+        	errors.rejectValue("userId", "userExists");
+        	SystemLog log = new SystemLog(SecurityContextHolder.getContext().getAuthentication().getName(), "Malicious input entered", java.sql.Date.valueOf(LocalDate.now()));
+			logService.recordLog(log);
         }
         
         if (!isBlankString(user.getUserId()) && userService.findByUsername(user.getUserId()) != null) {
@@ -94,19 +104,27 @@ public class UserValidator implements Validator {
         
         if (!isBlankString(user.getUserId()) && !pattern.matches(PASSWORD_PATTERN, user.getUserId())) {
             errors.rejectValue("userId", "invalid");
+            SystemLog log = new SystemLog(SecurityContextHolder.getContext().getAuthentication().getName(), "Malicious input entered", java.sql.Date.valueOf(LocalDate.now()));
+			logService.recordLog(log);
         }
         
-        if (!isBlankString(user.getAddress()) && !pattern.matches(PASSWORD_PATTERN, user.getAddress())) {
+        if (!isBlankString(user.getAddress()) && user.getAddress().contains("<")) {
             errors.rejectValue("address", "invalid");
+            SystemLog log = new SystemLog(SecurityContextHolder.getContext().getAuthentication().getName(), "Malicious input entered", java.sql.Date.valueOf(LocalDate.now()));
+			logService.recordLog(log);
         }
         if (!isBlankString(user.getCity()) && !pattern.matches(PASSWORD_PATTERN, user.getCity())) {
             errors.rejectValue("city", "invalid");
         }
         if (!isBlankString(user.getFirstName()) && !pattern.matches(PASSWORD_PATTERN, user.getFirstName())) {
             errors.rejectValue("firstName", "invalid");
+            SystemLog log = new SystemLog(SecurityContextHolder.getContext().getAuthentication().getName(), "Malicious input entered", java.sql.Date.valueOf(LocalDate.now()));
+			logService.recordLog(log);
         }
         if (!isBlankString(user.getLastName()) && !pattern.matches(PASSWORD_PATTERN, user.getLastName())) {
             errors.rejectValue("lastName", "invalid");
+            SystemLog log = new SystemLog(SecurityContextHolder.getContext().getAuthentication().getName(), "Malicious input entered", java.sql.Date.valueOf(LocalDate.now()));
+			logService.recordLog(log);
         }
 
        
@@ -136,6 +154,11 @@ public class UserValidator implements Validator {
         if(!isBlankString(user.getPhone()) && !pattern.matches(PHONE_PATTERN,user.getPhone())) {
         	errors.rejectValue("phone", "validPhone");
         }
+        
+        if(!isBlankString(user.getEmail()) && userService.findByPhone(user.getPhone()) != null) {
+        	errors.rejectValue("phone", "phoneExists");
+        }
+        
         
        
      

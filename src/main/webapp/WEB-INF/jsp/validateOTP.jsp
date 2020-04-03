@@ -32,7 +32,7 @@
               </tr>
                 <tr>
                     <td>OTP:</td>
-                    <td>	<form:input path="OTP"  type="text" name="OTP" size="6"/>
+                    <td>	<form:input path="OTP"  type="number" name="OTP" min="0" max="99999"/>
 						
                 </tr>
                 <tr>
@@ -49,8 +49,6 @@
 		</form:form>
         </div>
     </div>
-    <div class="footer">
-        <p>Footer</p>
-    </div>
+  
 </body>
 </html>

@@ -11,15 +11,21 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Account Management</title>
         	<link href="/resources/css/style.css" rel="stylesheet" type="text/css" />
-          	<link href="tabs.css" rel="stylesheet" type="text/css" /> 
+          
     </head>
 <body>
 <div class="topnav">
 <ol id="toc">
-      <a href="profile"><span>Profile</span></a></li>
+      <a href="home"><span>Home</span></a>
    
-      <a href="<c:url value='/logout'/>"><span>Logout</span></a>  
+     <a href="#" onclick="document.getElementById('logout-form').submit();"><span>Logout</span></a>  
 	</ol>
+	
+
+
+<form id="logout-form" action="<c:url value="/logout"/>" method="post">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+</form>
 </div>
 <div class="content">
   <center><h1>Welcome to Sun Financial</h1></center>
@@ -36,37 +42,23 @@
 			
 			</tr>
 			
-			<c:forEach var = "i" begin = "1" end = "10">
+				<c:forEach var="log" items="${logs}">
 				<tr>
-					<td>${logList[i].userId}</td>
-					<td>${logList[i].message}</td>
-					<td>${logList[i].timestamp}</td>
+					<td>${log.userId}</td>
+					<td>${log.message}</td>
+			
+					<td>${log.timestamp}</td>
+				
 				
 				<tr>
 				</c:forEach>
 				
-			<%-- </table>
-			    <table border="1" cellpadding="5" cellspacing="5">
-		        <tr>
-		            <c:forEach begin="1" end="${noOfPages}" var="i">
-		                <c:choose>
-		                    <c:when test="${currentPage eq i}">
-		                        <td>${i}</td>
-		                    </c:when>
-		                    <c:otherwise>
-		                        <td><a href="employee.do?page=${i}">${i}</a></td>
-		                    </c:otherwise>
-		                </c:choose>
-		            </c:forEach>
-		        </tr>
-		    </table> --%>	
+	
 
 	</div>
    </div>
 </div>
-<div class="footer">
-  <p>Footer</p>
-</div>
+
 <script>
 
 </script>

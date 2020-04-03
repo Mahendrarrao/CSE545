@@ -89,6 +89,8 @@ public class LimitLoginAuthenticationProvider extends DaoAuthenticationProvider 
                if(userAttempts!=null){
 			Date lastAttempts = userAttempts.getLastModified();
 			error = "Account is locked due to incorrect login attempts! Contact Bank.";
+			SystemLog log = new SystemLog(authentication.getName(), "User Account Locked", java.sql.Date.valueOf(LocalDate.now()));
+			logService.recordLog(log);
 		}else{
 			error = e.getMessage();
 		}

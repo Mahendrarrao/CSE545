@@ -14,9 +14,7 @@
 </head>
 <body>
 	<div class="topnav">
-        <a href="#">Link</a>
-        <a href="#">Link</a>
-        <a href="#">Link</a>
+      
     </div>
     <div class="content">
         <center><h1>Welcome to Sun Financial</h1></center>
@@ -32,7 +30,7 @@
               </tr>
                 <tr>
                     <td>OTP:</td>
-                    <td>	<form:input path="OTP"  type="text" name="OTP" size="6"/>
+                    <td>	<form:input path="OTP"  type="number" name="OTP"  min="0" max="99999"/>
 						
                 </tr>
                 <tr>
@@ -49,8 +47,6 @@
 		</form:form>
         </div>
     </div>
-    <div class="footer">
-        <p>Footer</p>
-    </div>
+   
 </body>
 </html>

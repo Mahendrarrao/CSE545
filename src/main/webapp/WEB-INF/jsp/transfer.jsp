@@ -11,7 +11,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Employee Profile</title>
       <link href="/resources/css/style.css" rel="stylesheet" type="text/css" />
-      <link href="/resources/css/tabs.css" rel="stylesheet" type="text/css" /> 
+      
   
    
 </head>
@@ -104,8 +104,6 @@
   </div>
   </div>
 </div>
-<div class="footer">
-  <p>Footer</p>
-</div>
+
 </body>
 </html>

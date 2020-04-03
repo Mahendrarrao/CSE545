@@ -33,7 +33,7 @@
   <div id="login-box-ext-usr">
 	
 	<div align="center">
-	<h2>Select type of change</h2>
+	<h2>Employee tier 2 Home</h2>
 
 		<table>	
 		<tr>
@@ -43,7 +43,7 @@
 			</tr>
 		<tr>
 		<td>
-      <form:form action="user" method="post" modelAttribute="search">
+      <form:form action="user" method="get" modelAttribute="search">
        <form:input path="userName"  />
             <form:errors path = "userName"/>
       <input id="makechanges" type="submit" value="Search User" />
@@ -54,25 +54,25 @@
 		</tr>
 		<tr>
 		<td>
-		 <form:form  method="post" modelAttribute="delete">
+		 <form:form action="deleteUser" method="post" modelAttribute="delete">
        <form:input path="userName"  />
             <form:errors path = "userName"/>
-      <input id="makechanges" type="submit" value="Delete User" />
+      <input id="makechanges"  type="submit" value="Delete User" />
       </form:form>
 		</td>
 		</tr>
 		<tr>
-		 <a href="<c:url value='add'/>"><span>Add User</span></a> 
+		<td> <a href="<c:url value='add'/>"><span><input type="button" id="makechanges" value="Add User"/></span></a> </td>
 		</tr>
 		
 		<tr>
 			<td>
-		      <a href="<c:url value='transactions'/>"><span>View Transactions</span></a>  	
+		      <a href="<c:url value='transactions'/>"><span><input type="button" id="makechanges" value="View Transactions"/></span></a>  	
 			</td>
 		</tr>
 			<tr>
 			<td>
-		      <a href="<c:url value='requests'/>"><span>View Requests</span></a>  	
+		      <a href="<c:url value='requests'/>"><span><input type="button" id="makechanges" value="View Requests"/></span></a>  	
 			</td>
 		</tr>
 		
@@ -83,9 +83,7 @@
 	</div>
    </div>
 </div>
-<div class="footer">
-  <p>Footer</p>
-</div>
+
 
 </body>
 </html>

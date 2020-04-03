@@ -10,9 +10,13 @@ import org.springframework.validation.Validator;
 
 import com.secure.bankapp.model.RegistrationForm;
 import com.secure.bankapp.model.Search;
+import com.secure.bankapp.model.SystemLog;
 import com.secure.bankapp.model.UserProfile;
+import com.secure.bankapp.service.SystemLogService;
 import com.secure.bankapp.service.UserService;
 import com.secure.bankapp.util.Constants;
+
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,6 +26,8 @@ import java.util.Set;
 public class SearchValidator implements Validator {
 	 @Autowired
 	    private UserService userService;
+	 @Autowired
+		private SystemLogService logService;
 	@Override
 	public boolean supports(Class<?> clazz) {
 		// TODO Auto-generated method stub
@@ -49,6 +55,8 @@ public class SearchValidator implements Validator {
 	        	return;
 	        }
 	        if(!pattern.matches(Constants.PASSWORD_PATTERN, search.getUserName())) {
+	        	SystemLog log = new SystemLog(SecurityContextHolder.getContext().getAuthentication().getName(), "Malicious input entered", java.sql.Date.valueOf(LocalDate.now()));
+				logService.recordLog(log);
 	         	errors.rejectValue("userName", "invalid");
 				return ;
 			}

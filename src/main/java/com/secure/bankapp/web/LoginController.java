@@ -8,11 +8,13 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -83,7 +85,7 @@ public class LoginController {
         userDetail.setCreatedAt(Date.valueOf(LocalDate.now()));
         userDetail.setUpdatedOn(Date.valueOf(LocalDate.now()));
         userDetail.setDob(Date.valueOf(LocalDate.now()));
-        userDetail.setGender("Male");
+        userDetail.setGender(userForm.getGender());
         userDetail.setAddress(userForm.getAddress() + ", " + userForm.getCity());
         
         
@@ -135,8 +137,10 @@ form.setUserId(userForm.getUserId());
   			error = "Invalid username or password!";
   		}else if(exception instanceof LockedException) {
   			error = exception.getMessage();
-  		}else{
-  			error = "Invalid username or password";
+  		}else if (exception instanceof SessionAuthenticationException){
+  			error = exception.getMessage();
+  		} else {
+  			error = "Invalid username or password!";
   		}
   		
   		return error;

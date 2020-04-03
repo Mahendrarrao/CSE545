@@ -11,17 +11,16 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Employee Profile</title>
       <link href="/resources/css/style.css" rel="stylesheet" type="text/css" />
-      
+    
   
    
 </head>
 <body>
 <div class="topnav">
  <ol id="toc">
-   <a href="home"><span>Home</span></a>
-      <a href="profile"><span>Profile</span></a>
+      <a href="home"><span>Home</span></a>
    
-       <a href="#" onclick="document.getElementById('logout-form').submit();"><span>Logout</span></a>  
+      <a href="#" onclick="document.getElementById('logout-form').submit();"><span>Logout</span></a>  
 	</ol>
 	
 
@@ -79,36 +78,11 @@
       <br/>    
         <input id="makechanges" type="submit" value="Make Changes" />
       </form:form>   
-      <div >
-      <form:form modelAttribute="account" action="delete" >
-      <table>
-      <tr>
-      
-        <td>Select Account to Delete: </td>
-            <td> 
-            <form:select path="accountId">
-                      <form:option value="" label="Select Account" />
-                      <form:options items="${accountsList}" />
-                       </form:select>
-                       <form:errors path = "accountId"/></td>
-            </td>
-      
-      </tr>
-      <td>
-      <form:hidden path="userId" />
-      <input id="makechanges" type="submit" value="Delete" />
-      </td>
-      <tr>
-      <td>
-      
-      </td>
-      </tr>
-      </table>
-      </form:form>
-      </div> 
+   
   </div>
   </div>
 </div>
+
 
 </body>
 </html>

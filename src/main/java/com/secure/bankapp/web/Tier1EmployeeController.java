@@ -24,6 +24,7 @@ import com.secure.bankapp.model.Account;
 import com.secure.bankapp.model.RegistrationForm;
 import com.secure.bankapp.model.Request;
 import com.secure.bankapp.model.Search;
+import com.secure.bankapp.model.SystemLog;
 import com.secure.bankapp.model.Transaction;
 import com.secure.bankapp.model.UserCred;
 import com.secure.bankapp.model.UserDetail;
@@ -32,6 +33,7 @@ import com.secure.bankapp.repository.UserCredentialRepository;
 import com.secure.bankapp.repository.UserDetailRepository;
 import com.secure.bankapp.service.AccountService;
 import com.secure.bankapp.service.RequestService;
+import com.secure.bankapp.service.SystemLogService;
 import com.secure.bankapp.service.TransactionService;
 import com.secure.bankapp.service.UserService;
 import com.secure.bankapp.util.Constants;
@@ -52,6 +54,9 @@ public class Tier1EmployeeController {
 
 	@Autowired
 	private AccountService accountService;
+	
+	@Autowired
+	private SystemLogService logService;
 	
 	@Autowired
 	private UserDetailRepository UserDetailRepository;
@@ -107,6 +112,15 @@ public class Tier1EmployeeController {
 		return "";
 	}
 	
+	@RequestMapping(value = {"/emp1/update/", "/emp1/view", "/emp1/transactions/action", "/emp1/requests/action", "/emp1/user" }, method = RequestMethod.GET)
+	public String get(Model model) {
+
+		
+		
+		return "redirect:/emp1/home";
+	}
+	
+	
 	
 	//Tier 2 Employees can close customer's accounts.
 	@RequestMapping(value = {"/emp1/view" }, method = RequestMethod.POST)
@@ -144,6 +158,8 @@ public class Tier1EmployeeController {
 					if (!pattern.matches(Constants.PASSWORD_PATTERN, account.getName())) {
 
 						model.addAttribute("statusmsg", "Invalid input");
+						SystemLog log = new SystemLog(SecurityContextHolder.getContext().getAuthentication().getName(), "Malicious input entered", java.sql.Date.valueOf(LocalDate.now()));
+						logService.recordLog(log);
 						return tier1EmployeeController.view(s, model);
 					}
 					if (userValidator.isBlankString(account.getName())) {
@@ -191,8 +207,9 @@ public class Tier1EmployeeController {
 		if (transaction.getTransactions() != null) {
 		if (action.equals("Approve"))
 		transactionService.approveTransactions(transaction.getTransactions());
-		else if(action.equals("Reject"))
+		else if(action.equals("Reject")) {
 			transactionService.rejectTransactions(transaction.getTransactions());
+		}
 		}
 
 		return "redirect:/emp1/transactions/";
@@ -209,10 +226,12 @@ public class Tier1EmployeeController {
 	public String approveRequests(@ModelAttribute("selectedTransactions") Request request, @RequestParam String action, Model model) {
 		//TODO
 		//Need to ensure transactions supplied by tier 2 employee are able to be authorized (approved) by tier 2 employee.
+		if(request.getRequests() != null) {
 		if (action.equals("Approve"))
 		requestService.approveRequests(request.getRequests());
 		else if(action.equals("Reject"))
 			requestService.rejectRequests(request.getRequests());
+		}
 
 		return "redirect:/emp1/requests/";
 	}
@@ -263,6 +282,8 @@ public class Tier1EmployeeController {
 		
 		if(!pattern.matches(Constants.PASSWORD_PATTERN, option.getUserName())) {
 			model.addAttribute("message", "Invalid Input");
+			SystemLog log = new SystemLog(SecurityContextHolder.getContext().getAuthentication().getName(), "Malicious input entered", java.sql.Date.valueOf(LocalDate.now()));
+			logService.recordLog(log);
 			return tier1EmployeeController.home(model) ;
 		}
 		

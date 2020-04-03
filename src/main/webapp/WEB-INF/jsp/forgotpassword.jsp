@@ -14,9 +14,7 @@
 </head>
 <body>
 	<div class="topnav">
-        <a href="#">Link</a>
-        <a href="#">Link</a>
-        <a href="#">Link</a>
+
     </div>
     <div class="content">
         <center><h1>Welcome to Sun Financial</h1></center>
@@ -64,8 +62,6 @@
 		</form:form>
         </div>
     </div>
-    <div class="footer">
-        <p>Footer</p>
-    </div>
+  
 </body>
 </html>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.secure.bankapp.model.SystemLog;
 import com.secure.bankapp.repository.SystemLogRepository;
+import com.secure.bankapp.util.Constants;
 
 @Service
 public class SystemLogServiceImpl implements SystemLogService {
@@ -16,6 +17,7 @@ public class SystemLogServiceImpl implements SystemLogService {
 	@Override
 	public void recordLog(SystemLog log) {
 		// TODO Auto-generated method stub
+		if (!log.getUserId().equals("anonymousUser"))
 		systemLogRepository.save(log);
 	}
 
@@ -35,6 +37,6 @@ public class SystemLogServiceImpl implements SystemLogService {
 	}
 	@Override
     public List<SystemLog> getAllLogs() {
-        return systemLogRepository.findAll();
+        return systemLogRepository.findByMessageNotAndMessageNot(Constants.USER_LOGIN, Constants.USER_LOGOUT);
     }
 }

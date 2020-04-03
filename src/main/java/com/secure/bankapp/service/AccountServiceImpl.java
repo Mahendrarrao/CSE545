@@ -78,8 +78,10 @@ public class AccountServiceImpl implements AccountService {
 	public Optional<Account> getAccountByPhone(String phone) {
 		// TODO Auto-generated method stub
 		
-		String userId = userService.findByPhone(phone).getUserId();
-		return accountRepository.findByUserIdAndDefaultAccount(userId, true);
+		UserDetail user = userService.findByPhone(phone);
+		if (user == null)
+			return null;
+		return accountRepository.findByUserIdAndDefaultAccount(user.getUserId(), true);
 		
 	}
 
@@ -87,12 +89,11 @@ public class AccountServiceImpl implements AccountService {
 	public Optional<Account> getAccountByEmail(String email) {
 		// TODO Auto-generated method stub
 		
-		String userId = userService.findByEmail(email).getUserId();
-		if (userId == null) {
+		UserDetail user = userService.findByEmail(email);
+		if (user == null)
 			return null;
-		}
 		
-		return accountRepository.findByUserIdAndDefaultAccount(userId, true);
+		return accountRepository.findByUserIdAndDefaultAccount(user.getUserId(), true);
 		
 	}
 
@@ -139,7 +140,7 @@ public class AccountServiceImpl implements AccountService {
 		try {
 		
 			Account acc1= accountRepository.findById(account.getAccountId()).get();
-			transaction.setToAccount(0000000001L);
+			transaction.setToAccount(1000000001L);
 			transaction.setFromAccount(account.getAccountId());
 			transaction.setTransactionDate(Date.valueOf(LocalDate.now()));
 			transaction.setTransactionValue(account.getBalance());
@@ -166,7 +167,7 @@ public class AccountServiceImpl implements AccountService {
 		try {
 		
 			Account acc1= accountRepository.findById(account.getAccountId()).get();
-			transaction.setFromAccount(0000000001L);
+			transaction.setFromAccount(1000000001L);
 			transaction.setToAccount(account.getAccountId());
 			transaction.setTransactionDate(Date.valueOf(LocalDate.now()));
 			transaction.setTransactionValue(account.getBalance());
@@ -267,7 +268,7 @@ public class AccountServiceImpl implements AccountService {
 		
 	Account  account = new Account();
 	account.setAccountId(createAccountNumber());
-	account.setBalance(0.0);
+	account.setBalance(1000.0);
 	account.setCreatedDate(Date.valueOf(LocalDate.now()));
 	account.setUserId(userId);
 	account.setUpdatedDate(Date.valueOf(LocalDate.now()));

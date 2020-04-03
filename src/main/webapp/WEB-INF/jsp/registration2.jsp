@@ -16,9 +16,7 @@
 </head>
 <body>
 	<div class="topnav">
-        <a href="#">Link</a>
-        <a href="#">Link</a>
-        <a href="#">Link</a>
+ 
     </div>
     <div class="content">
         <center><h1>Welcome to Sun Financial</h1></center>
@@ -27,7 +25,7 @@
 		
 			<table width="450px">
 			
-			<h3>Registration Step 2/2</h3>
+			<h3>Registration Step</h3>
 
 			<tr>
 			<td colspan="2">
@@ -89,15 +87,7 @@
 							<form:errors path = "confirmPassword"/>
 					</td>
 				</tr>
-				<tr>
-					<td valign="top">
-						<label for="merchant">Is Merchant? *</label>
-					</td>
-					<td valign="top">
-						Yes: <form:radiobutton path="customerType"  name="isMerchant" value="1"/>
-						No: <form:radiobutton path="customerType" name="isMerchant" value="0"/>
-					</td>
-				</tr>
+		
 				<tr>
 					<td valign="top">
 						<label for="phone">Phone *</label>
@@ -116,6 +106,16 @@
 							<form:errors path = "address"/>
 					</td>
 				</tr>
+					<tr>
+			<td>
+ <form:radiobutton path="gender" value="male"/>  Male
+			</td>
+			<td>
+		 <form:radiobutton path="gender" value="female"/>  Female
+			</td>
+		
+      
+        </tr>
 				<tr>
 					<td valign="top">
 						<label for="city">City *</label>
@@ -131,8 +131,6 @@
 		</form:form>
 		</div>
 	</div>
-	<div class="footer">
-    	<p>Footer</p>
-    </div>
+	
 </body>
 </html>

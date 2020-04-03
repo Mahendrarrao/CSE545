@@ -28,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.secure.bankapp.model.Account;
 import com.secure.bankapp.model.Appointment;
 import com.secure.bankapp.model.Request;
+import com.secure.bankapp.model.SystemLog;
 import com.secure.bankapp.model.Transaction;
 import com.secure.bankapp.model.TransferForm;
 import com.secure.bankapp.model.UserDetail;
@@ -36,6 +37,7 @@ import com.secure.bankapp.repository.RequestRepository;
 import com.secure.bankapp.repository.UserDetailRepository;
 import com.secure.bankapp.service.AccountService;
 import com.secure.bankapp.service.EmployeeService;
+import com.secure.bankapp.service.SystemLogService;
 import com.secure.bankapp.service.TransactionService;
 import com.secure.bankapp.service.UserService;
 import com.secure.bankapp.util.Constants;
@@ -56,6 +58,9 @@ public class IndividualUserController {
 	
 	@Autowired
 	private RequestRepository requestRepository;
+	
+	@Autowired
+	private SystemLogService logService;
 	
 	private Pattern pattern;
 	
@@ -80,8 +85,10 @@ model.addAttribute("appointment", new Appointment());
 			return "help";	
 		}
 		
-		if(appointment.getDate().contains("/") || appointment.getTime().contains("/"))
+		if(appointment.getDate().contains("<") || appointment.getTime().contains("<"))
 		{
+			SystemLog log = new SystemLog(SecurityContextHolder.getContext().getAuthentication().getName(), "Malicious input entered", java.sql.Date.valueOf(LocalDate.now()));
+			logService.recordLog(log);
 			model.addAttribute("statusmsg", "Please enter valid input");
 			return "help";	
 		}
@@ -222,10 +229,18 @@ model.addAttribute("appointment", new Appointment());
 	 @RequestMapping(value = "/user/transfer", method = RequestMethod.POST)
 		public String transferPost(@ModelAttribute("transfer") TransferForm form, @RequestParam("submit") String submit, Model model) {
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			model.addAttribute("accountsList", getAccountList(authentication.getName()));
+			if (form.getAccountId() == null) {
 			
+				model.addAttribute("statusmsg", "Please select account number");
+				SystemLog log = new SystemLog(SecurityContextHolder.getContext().getAuthentication().getName(), "Malicious input entered", java.sql.Date.valueOf(LocalDate.now()));
+				logService.recordLog(log);
+				return "transfer";
+			}
 			Optional<Account> acc  = accountService.getAccountById(form.getAccountId());
 			if(!acc.isPresent() || !acc.get().getUserId().equals(authentication.getName())) {
 				model.addAttribute("statusmsg", "Something went wrong . Please try again");
+			
 				return "transfer";
 			}
 			
@@ -244,8 +259,13 @@ model.addAttribute("appointment", new Appointment());
 			if (submit.equals("Transfer by Account")) {
 				try {
 					Long toAccount = Long.parseLong(form.getToAccount());
+					
 					if (!accountService.getAccountById(toAccount).isPresent()) {
 						model.addAttribute("statusmsg", "Recipient account not found");
+						return "transfer";
+					}
+					if (toAccount.equals(fromAccount.getAccountId())) {
+						model.addAttribute("statusmsg", "From account and to account cannot be same");
 						return "transfer";
 					}
 					
@@ -264,10 +284,15 @@ model.addAttribute("appointment", new Appointment());
 				}
 				
 			Optional<Account> toAccount =	accountService.getAccountByEmail(form.getToAccount());
-			  if (!toAccount.isPresent()) { 
+			  if (toAccount == null) { 
 				  model.addAttribute("statusmsg",
 			  "Recipient account not found");
 				  return "transfer"; }
+			  
+			  if (toAccount.get().getAccountId().equals(fromAccount.getAccountId())) {
+					model.addAttribute("statusmsg", "From account and to account cannot be same");
+					return "transfer";
+				}
 			  
 				
 				accountService.transferFunds(toAccount.get(), fromAccount, form.getAmount());
@@ -281,10 +306,15 @@ model.addAttribute("appointment", new Appointment());
 					return "transfer";
 				}
 				Optional<Account> toAccount =	accountService.getAccountByPhone(form.getToAccount());
-				  if (!toAccount.isPresent()) { 
+				  if (toAccount == null) { 
 					  model.addAttribute("statusmsg",
 				  "Recipient account not found");
 					  return "transfer"; }
+				  
+				  if (toAccount.get().getAccountId().equals(fromAccount.getAccountId())) {
+						model.addAttribute("statusmsg", "From account and to account cannot be same");
+						return "transfer";
+					}
 				  
 				  accountService.transferFunds(toAccount.get(), fromAccount, form.getAmount());
 					model.addAttribute("statusmsg", "Transaction Successfull. It is sent to Bank Approval");

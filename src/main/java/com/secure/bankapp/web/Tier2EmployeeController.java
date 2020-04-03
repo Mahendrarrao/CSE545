@@ -25,6 +25,7 @@ import com.secure.bankapp.model.Account;
 import com.secure.bankapp.model.RegistrationForm;
 import com.secure.bankapp.model.Request;
 import com.secure.bankapp.model.Search;
+import com.secure.bankapp.model.SystemLog;
 import com.secure.bankapp.model.Transaction;
 import com.secure.bankapp.model.UserCred;
 import com.secure.bankapp.model.UserDetail;
@@ -33,11 +34,13 @@ import com.secure.bankapp.repository.UserCredentialRepository;
 import com.secure.bankapp.repository.UserDetailRepository;
 import com.secure.bankapp.service.AccountService;
 import com.secure.bankapp.service.RequestService;
+import com.secure.bankapp.service.SystemLogService;
 import com.secure.bankapp.service.TransactionService;
 import com.secure.bankapp.service.UserService;
 import com.secure.bankapp.util.Constants;
 import com.secure.bankapp.validation.ProfileValidator;
 import com.secure.bankapp.validation.SearchValidator;
+import com.secure.bankapp.validation.UserModifyValidator;
 import com.secure.bankapp.validation.UserValidator;
 
 @Controller
@@ -61,8 +64,13 @@ public class Tier2EmployeeController {
 	@Autowired
 	private SearchValidator searchValidator;
 	
+	@Autowired
+	private SystemLogService logService;
 	 @Autowired
 	    private UserService userService;
+	 
+	 @Autowired
+	 private UserModifyValidator userValidator2;
 	
 @Autowired
 private RequestService requestService;
@@ -109,16 +117,28 @@ private RequestService requestService;
 	@RequestMapping(value = {"/emp2/delete" }, method = RequestMethod.POST)
 	public String closeUserAccount( @ModelAttribute("account") Account account, Model model) {
 	
+		if(account.getAccountId() == null) {
+			UserDetail userDetail = UserDetailRepository.findByUserId(account.getUserId());
+			UserCred user = userCredentialRepository.findByUserId(account.getUserId());
+		
+			getAccountList(model, account.getUserId());
+			Account acc1 = new Account();
+			account.setUserId(account.getUserId());
+			model.addAttribute("user", userDetail);
+			model.addAttribute("account", acc1);
+			model.addAttribute("statusmsg", "Please select Account number");
+			return "modifyAccount";
+		}
 		accountService.deleteAccount(account);
 		Search s = new Search();
 		s.setUserName(account.getUserId());
 		
 		
-		return tier2EmployeeController.view(s, model);
+		return "redirect:/emp2/user?userName=" + account.getUserId();
 	}
 	
 	
-	@RequestMapping(value = {"/emp2/home" }, method = RequestMethod.POST)
+	@RequestMapping(value = {"/emp2/deleteUser" }, method = RequestMethod.POST)
 	public String deleteUser( @ModelAttribute("delete") Search search, BindingResult result, Model model) {
 	
 		searchValidator.validate(search, result);
@@ -190,8 +210,8 @@ private RequestService requestService;
 
 	    @RequestMapping(value = "/emp2/add", method = RequestMethod.POST)
 	    public String registration(@Valid @ModelAttribute("userForm") RegistrationForm userForm, BindingResult bindingResult, Model model) {
-	       userForm.setPassword("test1234");
-	       userForm.setConfirmPassword("test1234");
+	       userForm.setPassword("dshah2139d");
+	       userForm.setConfirmPassword("dshah2139d");
 	    	userValidator.validate(userForm, bindingResult);
 
 	        if (bindingResult.hasErrors()) {
@@ -221,29 +241,31 @@ private RequestService requestService;
 	      
 	    }
 	Pattern pattern ;
-	@RequestMapping(value = "/emp2/user", method = RequestMethod.POST)
-	public String view(@ModelAttribute("search") Search option,  Model model) {	
-		if(UserValidator.isBlankString(option.getUserName())) {
+	@RequestMapping(value = "/emp2/user", method = RequestMethod.GET)
+	public String view(@RequestParam("userName") String userName,  Model model) {	
+		if(UserValidator.isBlankString(userName)) {
 			model.addAttribute("message", "Field should not be empty");
 			return tier2EmployeeController.home(model) ;
 		}
-		if (!pattern.matches(Constants.PASSWORD_PATTERN, option.getUserName())) {
+		if (!pattern.matches(Constants.PASSWORD_PATTERN, userName)) {
 
 			model.addAttribute("message", "Invalid input");
+			SystemLog log = new SystemLog(SecurityContextHolder.getContext().getAuthentication().getName(), "Malicious input entered", java.sql.Date.valueOf(LocalDate.now()));
+			logService.recordLog(log);
 			return tier2EmployeeController.home( model);
 		}
 		
-		UserDetail userDetail = UserDetailRepository.findByUserId(option.getUserName());
-		UserCred user = userCredentialRepository.findByUserId(option.getUserName());
+		UserDetail userDetail = UserDetailRepository.findByUserId(userName);
+		UserCred user = userCredentialRepository.findByUserId(userName);
 		
 		if(userDetail== null || user.getRoleId() != 0 )
 		{
 			model.addAttribute("message", "User not found");
 			return tier2EmployeeController.home(model) ;
 		}
-		getAccountList(model, option.getUserName());
+		getAccountList(model, userName);
 		Account account = new Account();
-		account.setUserId(option.getUserName());
+		account.setUserId(userName);
 		model.addAttribute("user", userDetail);
 		model.addAttribute("account", account);
 
@@ -253,9 +275,22 @@ private RequestService requestService;
 	
 	
 	
-	@RequestMapping(value = "/emp2/save", method = RequestMethod.POST)
+	
+	@RequestMapping(value = "/emp2/user", method = RequestMethod.POST)
 	public String userSave(@ModelAttribute("user") UserDetail profile,BindingResult bindingResult,Model model) {
 	
+		userValidator2.validate(profile, bindingResult);
+		if(bindingResult.hasErrors()) {
+			getAccountList(model, profile.getUserId());
+			Account account = new Account();
+			account.setUserId(profile.getUserId());
+			model.addAttribute("account", account);	
+			return "modifyAccount";
+			
+		}
+		
+		
+		
 		UserDetail user = UserDetailRepository.findByUserId(profile.getUserId());
 		user.setAddress(profile.getAddress());
 		user.setEmail(profile.getEmail());

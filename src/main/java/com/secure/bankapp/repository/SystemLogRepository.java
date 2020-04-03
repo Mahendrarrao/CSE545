@@ -13,4 +13,7 @@ public interface SystemLogRepository extends JpaRepository<SystemLog, Long>{
 	
 	List<SystemLog> findAll();
 
+	List<SystemLog> findByMessageNotAndMessageNot(String userLogin, String userLogout);
+	
+
 }

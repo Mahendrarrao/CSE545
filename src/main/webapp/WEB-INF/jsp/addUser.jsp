@@ -17,6 +17,7 @@
 <body>
 	<div class="topnav">
         <ol id="toc">
+         <a href="home"><span>Home</span></a>
       <a href="profile"><span>Profile</span></a>
    
     
@@ -124,8 +125,6 @@
 		</form:form>
 		</div>
 	</div>
-	<div class="footer">
-    	<p>Footer</p>
-    </div>
+	
 </body>
 </html>

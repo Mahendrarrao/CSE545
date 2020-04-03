@@ -71,9 +71,7 @@
 			<a href="register">Not enrolled? Sign up now. ></a>
 		</div> 
 	</div>
-<div class="footer">
-<p>Footer</p>
-</div>
+
 	
 	
 </body>

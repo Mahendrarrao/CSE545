@@ -56,12 +56,12 @@
 		
 		<tr>
 			<td>
-		      <a href="<c:url value='transactions'/>"><span>View Transactions</span></a>  	
+		      <a href="<c:url value='transactions'/>"><span><input type="button" id="makechanges" value="View Transactions"/></span></a>  	
 			</td>
 		</tr>
 		<tr>
 			<td>
-		      <a href="<c:url value='requests'/>"><span>View Requests</span></a>  	
+		      <a href="<c:url value='requests'/>"><span><input type="button" id="makechanges" value="View Requests"/></span></a>  	
 			</td>
 		</tr>
 
@@ -71,9 +71,7 @@
 	</div>
    </div>
 </div>
-<div class="footer">
-  <p>Footer</p>
-</div>
+
 
 </body>
 </html>

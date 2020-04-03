@@ -17,7 +17,7 @@
 <body>
 <div class="topnav">
 <ol id="toc">
-      <a href="profile"><span>Profile</span></a></li>
+   
    
       <a href="#" onclick="document.getElementById('logout-form').submit();"><span>Logout</span></a>  
 	</ol>
@@ -43,7 +43,7 @@
 			</tr>
 		<tr>
 		<td>
-      <form:form action="user" method="post" modelAttribute="search">
+      <form:form action="user" method="get" modelAttribute="search">
        <form:input path="userName"  />
             <form:errors path = "userName"/>
       <input id="makechanges" type="submit" value="Search User" />
@@ -61,19 +61,15 @@
 		</td>
 		</tr>
 		<tr>
-		 <a href="add"><span>Add User</span></a> 
+		 <td><a href="add"><span><input type="button" id="makechanges" value="Add User"/></span></a> </td>
 		</tr>
 		
-		<tr>
-			<td>
-		      <a href="<c:url value='transactions'/>"><span>View Transactions</span></a>  	
-			</td>
-		</tr>
+	
 		
 	    <security:authorize ifAnyGranted="ROLE_ADMIN">	
 			<tr>
 				<td>
-			      <a href="<c:url value='logs'/>"><span>System logs</span></a>  	
+			      <a href="<c:url value='logs'/>"><span><input type="button" id="makechanges" value="System Logs"/></span></a>  	
 				</td>
 			</tr>
 		</security:authorize>
@@ -85,9 +81,7 @@
 	</div>
    </div>
 </div>
-<div class="footer">
-  <p>Footer</p>
-</div>
+
 
 </body>
 </html>

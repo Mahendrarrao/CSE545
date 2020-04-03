@@ -140,7 +140,7 @@ public class OtpController {
 			model.addAttribute("message", "OTP empty");
 			return "validateOTP";
 		}
-		
+	
 		int otpnum = form.getOTP();
 		//Validate the Otp
 		int serverOtp = oTPService.getOtp(form.getUserId());

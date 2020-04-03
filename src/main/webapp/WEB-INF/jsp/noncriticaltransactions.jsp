@@ -11,11 +11,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Account Management</title>
         	<link href="/resources/css/style.css" rel="stylesheet" type="text/css" />
-          	<link href="tabs.css" rel="stylesheet" type="text/css" /> 
+          	
     </head>
 <body>
 <div class="topnav">
 <ol id="toc">
+  <a href="home"><span>Home</span></a>
       <a href="profile"><span>Profile</span></a>
    
         <a href="#" onclick="document.getElementById('logout-form').submit();"><span>Logout</span></a>  
@@ -66,9 +67,7 @@
 	</div>
    </div>
 </div>
-<div class="footer">
-  <p>Footer</p>
-</div>
+
 <script>
 
 </script>
